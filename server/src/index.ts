@@ -11,12 +11,16 @@ import {
   deleteTask,
   deleteSubtask,
   getTasksFilePath,
+  getSpec,
+  writeSpec,
+  deleteSpec,
 } from './taskStore';
 
 const PORT = parseInt(process.env.PORT || '4567', 10);
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.text({ type: 'text/plain' }));
 
 // ─── REST API ────────────────────────────────────────────────────────────────
 
@@ -39,6 +43,7 @@ app.patch('/api/tasks/:id', (req, res) => {
 app.delete('/api/tasks/:id', (req, res) => {
   const deleted = deleteTask(req.params.id);
   if (!deleted) return res.status(404).json({ error: 'Task not found' });
+  deleteSpec(req.params.id);
   res.json({ success: true });
 });
 
@@ -46,6 +51,23 @@ app.delete('/api/tasks/:taskId/subtasks/:subtaskId', (req, res) => {
   const deleted = deleteSubtask(req.params.taskId, req.params.subtaskId);
   if (!deleted) return res.status(404).json({ error: 'Subtask not found' });
   res.json({ success: true });
+});
+
+// ─── Spec API ────────────────────────────────────────────────────────────────
+
+app.get('/api/tasks/:id/spec', (req, res) => {
+  const task = getTaskById(req.params.id);
+  if (!task) return res.status(404).json({ error: 'Task not found' });
+  const spec = getSpec(req.params.id);
+  res.json({ taskId: req.params.id, spec });
+});
+
+app.put('/api/tasks/:id/spec', (req, res) => {
+  const task = getTaskById(req.params.id);
+  if (!task) return res.status(404).json({ error: 'Task not found' });
+  const content = typeof req.body === 'string' ? req.body : req.body.spec || '';
+  writeSpec(req.params.id, content);
+  res.json({ taskId: req.params.id, success: true });
 });
 
 // Serve static React build

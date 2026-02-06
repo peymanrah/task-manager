@@ -6,16 +6,18 @@ export default {
     extend: {
       colors: {
         tower: {
-          bg: '#0f1117',
-          card: '#1a1d27',
-          border: '#2a2d3a',
-          accent: '#6366f1',
-          'accent-hover': '#818cf8',
+          bg: 'var(--tower-bg)',
+          card: 'var(--tower-card)',
+          border: 'var(--tower-border)',
+          accent: 'var(--tower-accent)',
+          'accent-hover': 'var(--tower-accent-hover)',
           success: '#22c55e',
           warning: '#eab308',
           danger: '#ef4444',
           info: '#3b82f6',
-          muted: '#6b7280',
+          muted: 'var(--tower-muted)',
+          text: 'var(--tower-text)',
+          'text-secondary': 'var(--tower-text-secondary)',
         },
       },
       animation: {

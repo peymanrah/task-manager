@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import {
   X,
   Clock,
@@ -11,6 +13,8 @@ import {
   FileText,
   Trash2,
   MessageSquare,
+  BookOpen,
+  LayoutList,
 } from 'lucide-react';
 import { Task, Subtask, TaskStatus, LogEntry } from '../types';
 
@@ -36,7 +40,25 @@ const STATUS_COLOR: Record<TaskStatus, string> = {
   blocked: 'text-orange-400',
 };
 
+type Tab = 'details' | 'spec';
+
 export default function TaskDetail({ task, onClose, onDeleteSubtask }: TaskDetailProps) {
+  const [activeTab, setActiveTab] = useState<Tab>('details');
+  const [spec, setSpec] = useState<string>('');
+  const [specLoading, setSpecLoading] = useState(false);
+
+  // Fetch spec when task changes or spec tab is shown
+  useEffect(() => {
+    setSpecLoading(true);
+    fetch(`/api/tasks/${task.id}/spec`)
+      .then((r) => r.json())
+      .then((data) => {
+        setSpec(data.spec || '');
+        setSpecLoading(false);
+      })
+      .catch(() => setSpecLoading(false));
+  }, [task.id, task.updatedAt]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-end">
       {/* Backdrop */}
@@ -56,116 +78,215 @@ export default function TaskDetail({ task, onClose, onDeleteSubtask }: TaskDetai
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-tower-border transition-colors"
+              className="p-1.5 rounded-lg hover:bg-tower-border transition-colors text-tower-text"
             >
               <X size={16} />
             </button>
           </div>
-          <h2 className="text-lg font-bold mt-2">{task.title}</h2>
+          <h2 className="text-lg font-bold mt-2 text-tower-text">{task.title}</h2>
           {task.description && (
             <p className="text-sm text-tower-muted mt-1">{task.description}</p>
           )}
+
+          {/* Tabs */}
+          <div className="flex gap-1 mt-3 -mb-4 pb-0">
+            <TabButton
+              active={activeTab === 'details'}
+              onClick={() => setActiveTab('details')}
+              icon={<LayoutList size={14} />}
+              label="Details"
+            />
+            <TabButton
+              active={activeTab === 'spec'}
+              onClick={() => setActiveTab('spec')}
+              icon={<BookOpen size={14} />}
+              label="Spec"
+              badge={spec ? '✓' : undefined}
+            />
+          </div>
         </div>
 
-        <div className="px-6 py-4 space-y-6">
-          {/* Progress */}
-          <Section title="Progress">
-            <div className="flex items-center gap-3">
-              <div className="flex-1 h-2 rounded-full bg-tower-bg overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all duration-500 ${
-                    task.progress === 100 ? 'bg-tower-success' : 'bg-tower-accent'
-                  }`}
-                  style={{ width: `${task.progress}%` }}
-                />
-              </div>
-              <span className="text-sm font-mono font-bold">{task.progress}%</span>
-            </div>
-          </Section>
+        {/* Tab Content */}
+        {activeTab === 'details' ? (
+          <DetailsTab task={task} onDeleteSubtask={onDeleteSubtask} />
+        ) : (
+          <SpecTab spec={spec} loading={specLoading} />
+        )}
+      </div>
+    </div>
+  );
+}
 
-          {/* GitHub */}
-          {(task.githubRepo || task.prUrl || task.branch) && (
-            <Section title="GitHub">
-              <div className="space-y-2">
-                {task.githubRepo && (
-                  <LinkRow icon={<GitBranch size={14} />} label="Repository" href={task.githubRepo} />
-                )}
-                {task.branch && (
-                  <div className="flex items-center gap-2 text-sm text-tower-muted">
-                    <GitBranch size={14} />
-                    <span>Branch:</span>
-                    <code className="px-1.5 py-0.5 bg-tower-bg rounded text-xs font-mono text-tower-accent">
-                      {task.branch}
-                    </code>
-                  </div>
-                )}
-                {task.prUrl && (
-                  <LinkRow icon={<GitPullRequest size={14} />} label="Pull Request" href={task.prUrl} />
-                )}
-              </div>
-            </Section>
-          )}
+// ─── Tab Button ──────────────────────────────────────────────────────────────
 
-          {/* Associated Files */}
-          {task.associatedFiles.length > 0 && (
-            <Section title="Files">
-              <div className="space-y-1">
-                {task.associatedFiles.map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm text-tower-muted">
-                    <FileText size={14} />
-                    <span className="font-mono text-xs">{f}</span>
-                  </div>
-                ))}
-              </div>
-            </Section>
-          )}
+function TabButton({
+  active,
+  onClick,
+  icon,
+  label,
+  badge,
+}: {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+  badge?: string;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-t-lg transition-all border-b-2
+        ${
+          active
+            ? 'border-tower-accent text-tower-accent bg-tower-accent/5'
+            : 'border-transparent text-tower-muted hover:text-tower-text hover:bg-tower-border/30'
+        }`}
+    >
+      {icon}
+      {label}
+      {badge && (
+        <span className="ml-1 text-[9px] px-1 py-0.5 rounded bg-tower-success/20 text-tower-success">
+          {badge}
+        </span>
+      )}
+    </button>
+  );
+}
 
-          {/* Subtasks */}
-          {task.subtasks.length > 0 && (
-            <Section title={`Subtasks (${task.subtasks.filter((s) => s.status === 'done').length}/${task.subtasks.length})`}>
-              <div className="space-y-2">
-                {task.subtasks.map((sub) => (
-                  <SubtaskRow
-                    key={sub.id}
-                    subtask={sub}
-                    onDelete={() => {
-                      if (confirm('Delete this subtask?')) onDeleteSubtask(sub.id);
-                    }}
-                  />
-                ))}
-              </div>
-            </Section>
-          )}
+// ─── Details Tab ─────────────────────────────────────────────────────────────
 
-          {/* Activity Log */}
-          {task.logs.length > 0 && (
-            <Section title="Activity Log">
-              <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
-                {[...task.logs].reverse().map((log, i) => (
-                  <LogRow key={i} log={log} />
-                ))}
-              </div>
-            </Section>
-          )}
-
-          {/* Metadata */}
-          <Section title="Metadata">
-            <div className="grid grid-cols-2 gap-2 text-xs text-tower-muted">
-              <div>
-                <span className="block text-tower-muted/60 mb-0.5">ID</span>
-                <code className="font-mono text-[10px]">{task.id}</code>
-              </div>
-              <div>
-                <span className="block text-tower-muted/60 mb-0.5">Created</span>
-                {new Date(task.createdAt).toLocaleString()}
-              </div>
-              <div>
-                <span className="block text-tower-muted/60 mb-0.5">Updated</span>
-                {new Date(task.updatedAt).toLocaleString()}
-              </div>
-            </div>
-          </Section>
+function DetailsTab({ task, onDeleteSubtask }: { task: Task; onDeleteSubtask: (id: string) => void }) {
+  return (
+    <div className="px-6 py-4 space-y-6">
+      {/* Progress */}
+      <Section title="Progress">
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-2 rounded-full bg-tower-bg overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-500 ${
+                task.progress === 100 ? 'bg-tower-success' : 'bg-tower-accent'
+              }`}
+              style={{ width: `${task.progress}%` }}
+            />
+          </div>
+          <span className="text-sm font-mono font-bold text-tower-text">{task.progress}%</span>
         </div>
+      </Section>
+
+      {/* GitHub */}
+      {(task.githubRepo || task.prUrl || task.branch) && (
+        <Section title="GitHub">
+          <div className="space-y-2">
+            {task.githubRepo && (
+              <LinkRow icon={<GitBranch size={14} />} label="Repository" href={task.githubRepo} />
+            )}
+            {task.branch && (
+              <div className="flex items-center gap-2 text-sm text-tower-muted">
+                <GitBranch size={14} />
+                <span>Branch:</span>
+                <code className="px-1.5 py-0.5 bg-tower-bg rounded text-xs font-mono text-tower-accent">
+                  {task.branch}
+                </code>
+              </div>
+            )}
+            {task.prUrl && (
+              <LinkRow icon={<GitPullRequest size={14} />} label="Pull Request" href={task.prUrl} />
+            )}
+          </div>
+        </Section>
+      )}
+
+      {/* Associated Files */}
+      {task.associatedFiles.length > 0 && (
+        <Section title="Files">
+          <div className="space-y-1">
+            {task.associatedFiles.map((f, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm text-tower-muted">
+                <FileText size={14} />
+                <span className="font-mono text-xs">{f}</span>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {/* Subtasks */}
+      {task.subtasks.length > 0 && (
+        <Section title={`Subtasks (${task.subtasks.filter((s) => s.status === 'done').length}/${task.subtasks.length})`}>
+          <div className="space-y-2">
+            {task.subtasks.map((sub) => (
+              <SubtaskRow
+                key={sub.id}
+                subtask={sub}
+                onDelete={() => {
+                  if (confirm('Delete this subtask?')) onDeleteSubtask(sub.id);
+                }}
+              />
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {/* Activity Log */}
+      {task.logs.length > 0 && (
+        <Section title="Activity Log">
+          <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+            {[...task.logs].reverse().map((log, i) => (
+              <LogRow key={i} log={log} />
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {/* Metadata */}
+      <Section title="Metadata">
+        <div className="grid grid-cols-2 gap-2 text-xs text-tower-muted">
+          <div>
+            <span className="block text-tower-muted/60 mb-0.5">ID</span>
+            <code className="font-mono text-[10px]">{task.id}</code>
+          </div>
+          <div>
+            <span className="block text-tower-muted/60 mb-0.5">Created</span>
+            {new Date(task.createdAt).toLocaleString()}
+          </div>
+          <div>
+            <span className="block text-tower-muted/60 mb-0.5">Updated</span>
+            {new Date(task.updatedAt).toLocaleString()}
+          </div>
+        </div>
+      </Section>
+    </div>
+  );
+}
+
+// ─── Spec Tab ────────────────────────────────────────────────────────────────
+
+function SpecTab({ spec, loading }: { spec: string; loading: boolean }) {
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 size={24} className="animate-spin text-tower-accent" />
+      </div>
+    );
+  }
+
+  if (!spec) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-tower-muted px-6">
+        <BookOpen size={40} className="mb-3 opacity-40" />
+        <h3 className="text-sm font-semibold mb-1">No spec yet</h3>
+        <p className="text-xs text-center max-w-xs">
+          The spec document will be created automatically when the agent works on this task.
+          It captures requirements, planning, checklists, and considerations.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-6 py-4">
+      <div className="spec-markdown text-tower-text">
+        <ReactMarkdown>{spec}</ReactMarkdown>
       </div>
     </div>
   );
@@ -201,7 +322,7 @@ function SubtaskRow({ subtask, onDelete }: { subtask: Subtask; onDelete: () => v
   return (
     <div className="flex items-center gap-2 p-2 rounded-lg bg-tower-bg/50 border border-tower-border/50 group">
       {STATUS_ICON[subtask.status]}
-      <span className="flex-1 text-sm truncate">{subtask.title}</span>
+      <span className="flex-1 text-sm truncate text-tower-text">{subtask.title}</span>
       <span className="text-[10px] font-mono text-tower-muted">{subtask.progress}%</span>
       <button
         onClick={onDelete}
@@ -221,7 +342,7 @@ function LogRow({ log }: { log: LogEntry }) {
         <MessageSquare size={12} className="text-tower-accent/50" />
       </div>
       <div>
-        <p className="text-xs text-white/80">{log.message}</p>
+        <p className="text-xs text-tower-text/80">{log.message}</p>
         <span className="text-[10px] text-tower-muted/60">
           {new Date(log.timestamp).toLocaleString()}
         </span>

@@ -1,24 +1,24 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Task Manager: Control Tower Server",
-      "type": "shell",
-      "command": "powershell.exe -ExecutionPolicy Bypass -File \"${workspaceFolder}\\start-server.ps1\"",
-      "isBackground": true,
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated",
-        "showReuseMessage": false
-      },
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Task Manager: Control Tower Server",
+			"type": "shell",
+			"command": "cd '${workspaceFolder}'; powershell -ExecutionPolicy Bypass -File './start-server.ps1'",
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "silent",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
+		}
+	]
 }

@@ -1,11 +1,20 @@
 import { useState } from 'react';
 import { useTaskStream } from './hooks/useTaskStream';
+import { ThemeProvider } from './hooks/useTheme';
 import Header from './components/Header';
 import TaskCard from './components/TaskCard';
 import TaskDetail from './components/TaskDetail';
 import { Task, TaskStatus } from './types';
 
 export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}
+
+function AppContent() {
   const { tasks, connected, deleteTask, deleteSubtask } = useTaskStream();
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [filter, setFilter] = useState<TaskStatus | 'all'>('all');
@@ -31,7 +40,7 @@ export default function App() {
     : null;
 
   return (
-    <div className="min-h-screen bg-tower-bg">
+    <div className="min-h-screen bg-tower-bg transition-colors duration-200">
       <Header
         connected={connected}
         stats={stats}

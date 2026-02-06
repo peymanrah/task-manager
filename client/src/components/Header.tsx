@@ -7,8 +7,11 @@ import {
   CheckCircle2,
   XCircle,
   Search,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { TaskStatus } from '../types';
+import { useTheme } from '../hooks/useTheme';
 
 interface HeaderProps {
   connected: boolean;
@@ -41,6 +44,8 @@ export default function Header({
   search,
   onSearchChange,
 }: HeaderProps) {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <header className="sticky top-0 z-50 glass border-b border-tower-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,19 +56,29 @@ export default function Header({
               <span className="text-xl">🗼</span>
             </div>
             <div>
-              <h1 className="text-lg font-bold tracking-tight">Control Tower</h1>
+              <h1 className="text-lg font-bold tracking-tight text-tower-text">Control Tower</h1>
               <p className="text-xs text-tower-muted">AI Agent Task Manager</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             {/* Stats pills */}
             <div className="hidden sm:flex items-center gap-2">
-              <StatPill label="Total" value={stats.total} color="text-white" />
+              <StatPill label="Total" value={stats.total} color="text-tower-text" />
               <StatPill label="Active" value={stats.inProgress} color="text-tower-info" />
               <StatPill label="Done" value={stats.done} color="text-tower-success" />
               <StatPill label="Failed" value={stats.failed} color="text-tower-danger" />
             </div>
+
+            {/* Theme toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg bg-tower-card border border-tower-border
+                         hover:border-tower-accent/50 transition-all text-tower-muted hover:text-tower-text"
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
 
             {/* Connection status */}
             <div
@@ -89,7 +104,7 @@ export default function Header({
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
               className="w-full pl-9 pr-3 py-1.5 text-sm bg-tower-bg border border-tower-border rounded-lg
-                         placeholder-tower-muted focus:outline-none focus:border-tower-accent transition-colors"
+                         text-tower-text placeholder-tower-muted focus:outline-none focus:border-tower-accent transition-colors"
             />
           </div>
           <div className="flex items-center gap-1">
@@ -101,7 +116,7 @@ export default function Header({
                   ${
                     filter === f.value
                       ? 'bg-tower-accent text-white shadow-lg shadow-tower-accent/25'
-                      : 'text-tower-muted hover:text-white hover:bg-tower-card'
+                      : 'text-tower-muted hover:text-tower-text hover:bg-tower-card'
                   }`}
               >
                 {f.icon}

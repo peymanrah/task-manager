@@ -2,25 +2,116 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Theme Variables ─── */
+:root {
+  --tower-bg: #0f1117;
+  --tower-card: #1a1d27;
+  --tower-border: #2a2d3a;
+  --tower-accent: #6366f1;
+  --tower-accent-hover: #818cf8;
+  --tower-muted: #6b7280;
+  --tower-text: #f3f4f6;
+  --tower-text-secondary: #9ca3af;
+  --scrollbar-track: #0f1117;
+  --scrollbar-thumb: #2a2d3a;
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --tower-bg: #f3f4f6;
+  --tower-card: #ffffff;
+  --tower-border: #e5e7eb;
+  --tower-accent: #4f46e5;
+  --tower-accent-hover: #6366f1;
+  --tower-muted: #6b7280;
+  --tower-text: #111827;
+  --tower-text-secondary: #4b5563;
+  --scrollbar-track: #f3f4f6;
+  --scrollbar-thumb: #d1d5db;
+  color-scheme: light;
+}
+
 @layer base {
+  body {
+    color: var(--tower-text);
+    background: var(--tower-bg);
+    transition: background 0.2s, color 0.2s;
+  }
   * {
     scrollbar-width: thin;
-    scrollbar-color: #2a2d3a #0f1117;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
   *::-webkit-scrollbar {
     width: 6px;
   }
   *::-webkit-scrollbar-track {
-    background: #0f1117;
+    background: var(--scrollbar-track);
   }
   *::-webkit-scrollbar-thumb {
-    background-color: #2a2d3a;
+    background-color: var(--scrollbar-thumb);
     border-radius: 3px;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-tower-card/80 backdrop-blur-md border border-tower-border;
+    background: color-mix(in srgb, var(--tower-card) 80%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--tower-border);
   }
+}
+
+/* ─── Markdown Spec Styles ─── */
+.spec-markdown h1 {
+  @apply text-xl font-bold mb-3 pb-2 border-b border-tower-border;
+}
+.spec-markdown h2 {
+  @apply text-lg font-semibold mb-2 mt-4;
+}
+.spec-markdown h3 {
+  @apply text-base font-semibold mb-1.5 mt-3;
+}
+.spec-markdown p {
+  @apply text-sm leading-relaxed mb-2;
+}
+.spec-markdown ul {
+  @apply list-disc pl-5 mb-2 space-y-0.5 text-sm;
+}
+.spec-markdown ol {
+  @apply list-decimal pl-5 mb-2 space-y-0.5 text-sm;
+}
+.spec-markdown li {
+  @apply leading-relaxed;
+}
+.spec-markdown code {
+  @apply px-1.5 py-0.5 rounded text-xs font-mono;
+  background: color-mix(in srgb, var(--tower-border) 50%, transparent);
+}
+.spec-markdown pre {
+  @apply p-3 bg-tower-bg rounded-lg border border-tower-border overflow-x-auto mb-3;
+}
+.spec-markdown pre code {
+  @apply bg-transparent p-0;
+}
+.spec-markdown blockquote {
+  @apply border-l-2 border-tower-accent pl-3 italic text-tower-muted text-sm mb-2;
+}
+.spec-markdown strong {
+  @apply font-semibold;
+}
+.spec-markdown hr {
+  @apply border-tower-border my-4;
+}
+.spec-markdown table {
+  @apply w-full border-collapse text-sm mb-3;
+}
+.spec-markdown th {
+  @apply text-left px-3 py-1.5 border border-tower-border font-semibold text-xs uppercase;
+  background: color-mix(in srgb, var(--tower-border) 30%, transparent);
+}
+.spec-markdown td {
+  @apply px-3 py-1.5 border border-tower-border;
+}
+.spec-markdown a {
+  @apply text-tower-accent hover:underline;
 }

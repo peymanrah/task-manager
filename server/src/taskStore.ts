@@ -41,9 +41,14 @@ export interface Task {
 
 const DATA_DIR = process.env.TASK_MANAGER_DATA_DIR || path.resolve(__dirname, '..', '..', 'data');
 const TASKS_FILE = process.env.TASK_MANAGER_DATA_FILE || path.join(DATA_DIR, 'tasks.json');
+const SPECS_DIR = path.join(DATA_DIR, 'specs');
 
 export function getTasksFilePath(): string {
   return TASKS_FILE;
+}
+
+export function getSpecsDir(): string {
+  return SPECS_DIR;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -54,6 +59,33 @@ function ensureDataDir(): void {
   }
   if (!fs.existsSync(TASKS_FILE)) {
     fs.writeFileSync(TASKS_FILE, '[]', 'utf-8');
+  }
+  if (!fs.existsSync(SPECS_DIR)) {
+    fs.mkdirSync(SPECS_DIR, { recursive: true });
+  }
+}
+
+// ─── Spec File Operations ────────────────────────────────────────────────────
+
+export function getSpec(taskId: string): string {
+  ensureDataDir();
+  const specPath = path.join(SPECS_DIR, `${taskId}.md`);
+  if (fs.existsSync(specPath)) {
+    return fs.readFileSync(specPath, 'utf-8');
+  }
+  return '';
+}
+
+export function writeSpec(taskId: string, content: string): void {
+  ensureDataDir();
+  const specPath = path.join(SPECS_DIR, `${taskId}.md`);
+  fs.writeFileSync(specPath, content, 'utf-8');
+}
+
+export function deleteSpec(taskId: string): void {
+  const specPath = path.join(SPECS_DIR, `${taskId}.md`);
+  if (fs.existsSync(specPath)) {
+    fs.unlinkSync(specPath);
   }
 }
 

@@ -85,7 +85,7 @@ export default function TaskCard({ task, onClick, onDelete }: TaskCardProps) {
       </div>
 
       {/* Title */}
-      <h3 className="font-semibold text-sm text-white mb-1 pr-8 line-clamp-2">{task.title}</h3>
+      <h3 className="font-semibold text-sm text-tower-text mb-1 pr-8 line-clamp-2">{task.title}</h3>
 
       {/* Description */}
       {task.description && (
