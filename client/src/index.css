@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2d3a #0f1117;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #0f1117;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #2a2d3a;
+    border-radius: 3px;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-tower-card/80 backdrop-blur-md border border-tower-border;
+  }
+}

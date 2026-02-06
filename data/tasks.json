@@ -1,0 +1,118 @@
+[
+  {
+    "id": "ca14494f-2317-4258-a907-b2e25b0d5607",
+    "title": "Implement Task Manager Control Tower",
+    "description": "Build the full-stack Task Manager with React UI, Express/WS backend, and CLI tools. Includes real-time WebSocket updates, dark theme dashboard, task CRUD, subtask tracking, and GitHub integration.",
+    "status": "in-progress",
+    "progress": 89,
+    "subtasks": [
+      {
+        "id": "sub-001",
+        "title": "Scaffold project structure & Git init",
+        "status": "done",
+        "progress": 100,
+        "logs": [{"timestamp": "2026-02-06T21:30:00.000Z", "message": "Created package.json, tsconfig, folders, .gitignore"}],
+        "createdAt": "2026-02-06T21:30:00.000Z",
+        "updatedAt": "2026-02-06T21:45:00.000Z"
+      },
+      {
+        "id": "sub-002",
+        "title": "Install Node.js & all dependencies",
+        "status": "done",
+        "progress": 100,
+        "logs": [{"timestamp": "2026-02-06T21:35:00.000Z", "message": "Installed Node.js LTS v24.13.0 via winget, npm install for server + client"}],
+        "createdAt": "2026-02-06T21:35:00.000Z",
+        "updatedAt": "2026-02-06T21:45:00.000Z"
+      },
+      {
+        "id": "sub-003",
+        "title": "Build task data model & CRUD store",
+        "status": "done",
+        "progress": 100,
+        "logs": [{"timestamp": "2026-02-06T21:40:00.000Z", "message": "Created taskStore.ts with Task/Subtask/LogEntry types and atomic CRUD operations"}],
+        "createdAt": "2026-02-06T21:40:00.000Z",
+        "updatedAt": "2026-02-06T21:45:00.000Z"
+      },
+      {
+        "id": "sub-004",
+        "title": "Build Express + WebSocket backend server",
+        "status": "done",
+        "progress": 100,
+        "logs": [{"timestamp": "2026-02-06T21:42:00.000Z", "message": "Created server with REST API, chokidar file watcher, WebSocket broadcast"}],
+        "createdAt": "2026-02-06T21:42:00.000Z",
+        "updatedAt": "2026-02-06T21:45:00.000Z"
+      },
+      {
+        "id": "sub-005",
+        "title": "Build CLI task management scripts",
+        "status": "done",
+        "progress": 100,
+        "logs": [{"timestamp": "2026-02-06T21:43:00.000Z", "message": "Created createTask, updateTask, logTask, ghSetup CLI tools"}],
+        "createdAt": "2026-02-06T21:43:00.000Z",
+        "updatedAt": "2026-02-06T21:45:00.000Z"
+      },
+      {
+        "id": "sub-006",
+        "title": "Build Control Tower React UI",
+        "status": "done",
+        "progress": 100,
+        "logs": [{"timestamp": "2026-02-06T21:44:00.000Z", "message": "Created Dashboard, TaskCard, TaskDetail, Header components with dark theme, WebSocket hook, delete support"}],
+        "createdAt": "2026-02-06T21:44:00.000Z",
+        "updatedAt": "2026-02-06T21:50:00.000Z"
+      },
+      {
+        "id": "sub-007",
+        "title": "Write unit tests (30 tests)",
+        "status": "done",
+        "progress": 100,
+        "logs": [{"timestamp": "2026-02-06T21:46:00.000Z", "message": "All 30 tests passing — taskStore CRUD + REST API coverage"}],
+        "createdAt": "2026-02-06T21:46:00.000Z",
+        "updatedAt": "2026-02-06T21:50:00.000Z"
+      },
+      {
+        "id": "sub-008",
+        "title": "Build client & launch server",
+        "status": "done",
+        "progress": 100,
+        "logs": [{"timestamp": "2026-02-06T21:50:00.000Z", "message": "Vite build succeeded, server starts on port 4567"}],
+        "createdAt": "2026-02-06T21:50:00.000Z",
+        "updatedAt": "2026-02-06T21:55:00.000Z"
+      },
+      {
+        "id": "sub-009",
+        "title": "Create GitHub remote repo & push",
+        "status": "pending",
+        "progress": 0,
+        "logs": [],
+        "createdAt": "2026-02-06T21:55:00.000Z",
+        "updatedAt": "2026-02-06T21:55:00.000Z"
+      }
+    ],
+    "githubRepo": "",
+    "branch": "main",
+    "prUrl": "",
+    "associatedFiles": [
+      "server/src/taskStore.ts",
+      "server/src/index.ts",
+      "server/src/taskStore.test.ts",
+      "server/src/api.test.ts",
+      "client/src/App.tsx",
+      "client/src/components/Header.tsx",
+      "client/src/components/TaskCard.tsx",
+      "client/src/components/TaskDetail.tsx",
+      "client/src/hooks/useTaskStream.ts"
+    ],
+    "createdAt": "2026-02-06T21:30:00.000Z",
+    "updatedAt": "2026-02-06T21:55:00.000Z",
+    "logs": [
+      {"timestamp": "2026-02-06T21:30:00.000Z", "message": "Task created: Implement Task Manager Control Tower"},
+      {"timestamp": "2026-02-06T21:35:00.000Z", "message": "Node.js LTS v24.13.0 installed via winget"},
+      {"timestamp": "2026-02-06T21:40:00.000Z", "message": "All server + client dependencies installed"},
+      {"timestamp": "2026-02-06T21:42:00.000Z", "message": "Backend server built: Express + WebSocket + chokidar watcher"},
+      {"timestamp": "2026-02-06T21:44:00.000Z", "message": "React Control Tower UI built with Tailwind dark theme"},
+      {"timestamp": "2026-02-06T21:46:00.000Z", "message": "30/30 unit tests passing"},
+      {"timestamp": "2026-02-06T21:50:00.000Z", "message": "Client build succeeded, server verified on port 4567"},
+      {"timestamp": "2026-02-06T21:55:00.000Z", "message": "Ready for GitHub repo creation and initial push"}
+    ]
+  }
+]

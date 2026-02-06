@@ -1,0 +1,27 @@
+{
+  "name": "task-manager-control-tower",
+  "version": "1.0.0",
+  "description": "AI Agent Task Manager Control Tower — tracks tasks, subtasks, progress, and GitHub links in real-time",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "test": "cd server && npm test",
+    "task:create": "cd server && npx ts-node src/cli/createTask.ts",
+    "task:update": "cd server && npx ts-node src/cli/updateTask.ts",
+    "task:log": "cd server && npx ts-node src/cli/logTask.ts",
+    "gh:setup": "cd server && npx ts-node src/cli/ghSetup.ts"
+  },
+  "author": "peymanrah",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
