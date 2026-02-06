@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "task-manager": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["c:\\Users\\perahmat\\Task Manager\\mcp-server.js"],
+      "env": {}
+    }
+  }
+}

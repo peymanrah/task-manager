@@ -9,8 +9,11 @@ import {
   Search,
   Sun,
   Moon,
+  LayoutGrid,
+  History,
 } from 'lucide-react';
 import { TaskStatus } from '../types';
+import { ViewMode } from '../App';
 import { useTheme } from '../hooks/useTheme';
 
 interface HeaderProps {
@@ -26,6 +29,8 @@ interface HeaderProps {
   onFilterChange: (f: TaskStatus | 'all') => void;
   search: string;
   onSearchChange: (s: string) => void;
+  view: ViewMode;
+  onViewChange: (v: ViewMode) => void;
 }
 
 const FILTERS: { label: string; value: TaskStatus | 'all'; icon: React.ReactNode }[] = [
@@ -43,6 +48,8 @@ export default function Header({
   onFilterChange,
   search,
   onSearchChange,
+  view,
+  onViewChange,
 }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
 
@@ -107,6 +114,35 @@ export default function Header({
                          text-tower-text placeholder-tower-muted focus:outline-none focus:border-tower-accent transition-colors"
             />
           </div>
+
+          {/* View toggle */}
+          <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-tower-bg border border-tower-border">
+            <button
+              onClick={() => onViewChange('cards')}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md transition-all
+                ${view === 'cards'
+                  ? 'bg-tower-accent text-white shadow-sm'
+                  : 'text-tower-muted hover:text-tower-text'
+                }`}
+              title="Card view"
+            >
+              <LayoutGrid size={13} />
+              Cards
+            </button>
+            <button
+              onClick={() => onViewChange('timeline')}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md transition-all
+                ${view === 'timeline'
+                  ? 'bg-tower-accent text-white shadow-sm'
+                  : 'text-tower-muted hover:text-tower-text'
+                }`}
+              title="Timeline view"
+            >
+              <History size={13} />
+              Timeline
+            </button>
+          </div>
+
           <div className="flex items-center gap-1">
             {FILTERS.map((f) => (
               <button

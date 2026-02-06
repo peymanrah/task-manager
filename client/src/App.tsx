@@ -4,7 +4,10 @@ import { ThemeProvider } from './hooks/useTheme';
 import Header from './components/Header';
 import TaskCard from './components/TaskCard';
 import TaskDetail from './components/TaskDetail';
+import Timeline from './components/Timeline';
 import { Task, TaskStatus } from './types';
+
+export type ViewMode = 'cards' | 'timeline';
 
 export default function App() {
   return (
@@ -19,6 +22,7 @@ function AppContent() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [filter, setFilter] = useState<TaskStatus | 'all'>('all');
   const [search, setSearch] = useState('');
+  const [view, setView] = useState<ViewMode>('cards');
 
   const filtered = tasks.filter((t) => {
     if (filter !== 'all' && t.status !== filter) return false;
@@ -48,10 +52,14 @@ function AppContent() {
         onFilterChange={setFilter}
         search={search}
         onSearchChange={setSearch}
+        view={view}
+        onViewChange={setView}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {filtered.length === 0 ? (
+        {view === 'timeline' ? (
+          <Timeline tasks={tasks} onTaskClick={setSelectedTask} />
+        ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-32 text-tower-muted">
             <div className="text-6xl mb-4">📋</div>
             <h2 className="text-xl font-semibold mb-2">No tasks yet</h2>
