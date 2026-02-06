@@ -1,13 +1,22 @@
 import supertest from 'supertest';
 import * as fs from 'fs';
+import * as path from 'path';
+import * as os from 'os';
+
+// Use a temp file for tests — NEVER touch production data/tasks.json
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'task-manager-api-test-'));
+const TEST_TASKS_FILE = path.join(TEST_DATA_DIR, 'tasks.json');
+process.env.TASK_MANAGER_DATA_DIR = TEST_DATA_DIR;
+process.env.TASK_MANAGER_DATA_FILE = TEST_TASKS_FILE;
+fs.writeFileSync(TEST_TASKS_FILE, '[]', 'utf-8');
+
 import { app } from './index';
 import { createTask, getTasksFilePath } from './taskStore';
 
-const TASKS_FILE = getTasksFilePath();
 const request = supertest(app);
 
 function resetTasksFile() {
-  fs.writeFileSync(TASKS_FILE, '[]', 'utf-8');
+  fs.writeFileSync(TEST_TASKS_FILE, '[]', 'utf-8');
 }
 
 beforeEach(() => {
@@ -15,7 +24,10 @@ beforeEach(() => {
 });
 
 afterAll(() => {
-  resetTasksFile();
+  // Clean up temp directory
+  try {
+    fs.rmSync(TEST_DATA_DIR, { recursive: true });
+  } catch {}
 });
 
 describe('REST API', () => {

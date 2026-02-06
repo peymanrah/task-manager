@@ -1,5 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
+
+// Use a temp file for tests — NEVER touch production data/tasks.json
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'task-manager-test-'));
+const TEST_TASKS_FILE = path.join(TEST_DATA_DIR, 'tasks.json');
+process.env.TASK_MANAGER_DATA_DIR = TEST_DATA_DIR;
+process.env.TASK_MANAGER_DATA_FILE = TEST_TASKS_FILE;
+
 import {
   getAllTasks,
   createTask,
@@ -14,10 +22,8 @@ import {
   Task,
 } from './taskStore';
 
-const TASKS_FILE = getTasksFilePath();
-
 function resetTasksFile() {
-  fs.writeFileSync(TASKS_FILE, '[]', 'utf-8');
+  fs.writeFileSync(TEST_TASKS_FILE, '[]', 'utf-8');
 }
 
 beforeEach(() => {
@@ -25,7 +31,10 @@ beforeEach(() => {
 });
 
 afterAll(() => {
-  resetTasksFile();
+  // Clean up temp directory
+  try {
+    fs.rmSync(TEST_DATA_DIR, { recursive: true });
+  } catch {}
 });
 
 describe('taskStore', () => {
@@ -43,7 +52,7 @@ describe('taskStore', () => {
 
     it('should persist task to file', () => {
       createTask({ title: 'Persisted Task' });
-      const raw = fs.readFileSync(TASKS_FILE, 'utf-8');
+      const raw = fs.readFileSync(TEST_TASKS_FILE, 'utf-8');
       const tasks = JSON.parse(raw);
       expect(tasks).toHaveLength(1);
       expect(tasks[0].title).toBe('Persisted Task');

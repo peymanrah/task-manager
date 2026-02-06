@@ -11,7 +11,12 @@
         "title": "Scaffold project structure & Git init",
         "status": "done",
         "progress": 100,
-        "logs": [{"timestamp": "2026-02-06T21:30:00.000Z", "message": "Created package.json, tsconfig, folders, .gitignore"}],
+        "logs": [
+          {
+            "timestamp": "2026-02-06T21:30:00.000Z",
+            "message": "Created package.json, tsconfig, folders, .gitignore"
+          }
+        ],
         "createdAt": "2026-02-06T21:30:00.000Z",
         "updatedAt": "2026-02-06T21:45:00.000Z"
       },
@@ -20,7 +25,12 @@
         "title": "Install Node.js & all dependencies",
         "status": "done",
         "progress": 100,
-        "logs": [{"timestamp": "2026-02-06T21:35:00.000Z", "message": "Installed Node.js LTS v24.13.0 via winget, npm install for server + client"}],
+        "logs": [
+          {
+            "timestamp": "2026-02-06T21:35:00.000Z",
+            "message": "Installed Node.js LTS v24.13.0 via winget, npm install for server + client"
+          }
+        ],
         "createdAt": "2026-02-06T21:35:00.000Z",
         "updatedAt": "2026-02-06T21:45:00.000Z"
       },
@@ -29,7 +39,12 @@
         "title": "Build task data model & CRUD store",
         "status": "done",
         "progress": 100,
-        "logs": [{"timestamp": "2026-02-06T21:40:00.000Z", "message": "Created taskStore.ts with Task/Subtask/LogEntry types and atomic CRUD operations"}],
+        "logs": [
+          {
+            "timestamp": "2026-02-06T21:40:00.000Z",
+            "message": "Created taskStore.ts with Task/Subtask/LogEntry types and atomic CRUD operations"
+          }
+        ],
         "createdAt": "2026-02-06T21:40:00.000Z",
         "updatedAt": "2026-02-06T21:45:00.000Z"
       },
@@ -38,7 +53,12 @@
         "title": "Build Express + WebSocket backend server",
         "status": "done",
         "progress": 100,
-        "logs": [{"timestamp": "2026-02-06T21:42:00.000Z", "message": "Created server with REST API, chokidar file watcher, WebSocket broadcast"}],
+        "logs": [
+          {
+            "timestamp": "2026-02-06T21:42:00.000Z",
+            "message": "Created server with REST API, chokidar file watcher, WebSocket broadcast"
+          }
+        ],
         "createdAt": "2026-02-06T21:42:00.000Z",
         "updatedAt": "2026-02-06T21:45:00.000Z"
       },
@@ -47,7 +67,12 @@
         "title": "Build CLI task management scripts",
         "status": "done",
         "progress": 100,
-        "logs": [{"timestamp": "2026-02-06T21:43:00.000Z", "message": "Created createTask, updateTask, logTask, ghSetup CLI tools"}],
+        "logs": [
+          {
+            "timestamp": "2026-02-06T21:43:00.000Z",
+            "message": "Created createTask, updateTask, logTask, ghSetup CLI tools"
+          }
+        ],
         "createdAt": "2026-02-06T21:43:00.000Z",
         "updatedAt": "2026-02-06T21:45:00.000Z"
       },
@@ -56,7 +81,12 @@
         "title": "Build Control Tower React UI",
         "status": "done",
         "progress": 100,
-        "logs": [{"timestamp": "2026-02-06T21:44:00.000Z", "message": "Created Dashboard, TaskCard, TaskDetail, Header components with dark theme, WebSocket hook, delete support"}],
+        "logs": [
+          {
+            "timestamp": "2026-02-06T21:44:00.000Z",
+            "message": "Created Dashboard, TaskCard, TaskDetail, Header components with dark theme, WebSocket hook, delete support"
+          }
+        ],
         "createdAt": "2026-02-06T21:44:00.000Z",
         "updatedAt": "2026-02-06T21:50:00.000Z"
       },
@@ -65,7 +95,12 @@
         "title": "Write unit tests (30 tests)",
         "status": "done",
         "progress": 100,
-        "logs": [{"timestamp": "2026-02-06T21:46:00.000Z", "message": "All 30 tests passing — taskStore CRUD + REST API coverage"}],
+        "logs": [
+          {
+            "timestamp": "2026-02-06T21:46:00.000Z",
+            "message": "All 30 tests passing ΓÇö taskStore CRUD + REST API coverage"
+          }
+        ],
         "createdAt": "2026-02-06T21:46:00.000Z",
         "updatedAt": "2026-02-06T21:50:00.000Z"
       },
@@ -74,7 +109,12 @@
         "title": "Build client & launch server",
         "status": "done",
         "progress": 100,
-        "logs": [{"timestamp": "2026-02-06T21:50:00.000Z", "message": "Vite build succeeded, server starts on port 4567"}],
+        "logs": [
+          {
+            "timestamp": "2026-02-06T21:50:00.000Z",
+            "message": "Vite build succeeded, server starts on port 4567"
+          }
+        ],
         "createdAt": "2026-02-06T21:50:00.000Z",
         "updatedAt": "2026-02-06T21:55:00.000Z"
       },
@@ -103,16 +143,163 @@
       "client/src/hooks/useTaskStream.ts"
     ],
     "createdAt": "2026-02-06T21:30:00.000Z",
-    "updatedAt": "2026-02-06T21:55:00.000Z",
+    "updatedAt": "2026-02-06T22:54:40.268Z",
     "logs": [
-      {"timestamp": "2026-02-06T21:30:00.000Z", "message": "Task created: Implement Task Manager Control Tower"},
-      {"timestamp": "2026-02-06T21:35:00.000Z", "message": "Node.js LTS v24.13.0 installed via winget"},
-      {"timestamp": "2026-02-06T21:40:00.000Z", "message": "All server + client dependencies installed"},
-      {"timestamp": "2026-02-06T21:42:00.000Z", "message": "Backend server built: Express + WebSocket + chokidar watcher"},
-      {"timestamp": "2026-02-06T21:44:00.000Z", "message": "React Control Tower UI built with Tailwind dark theme"},
-      {"timestamp": "2026-02-06T21:46:00.000Z", "message": "30/30 unit tests passing"},
-      {"timestamp": "2026-02-06T21:50:00.000Z", "message": "Client build succeeded, server verified on port 4567"},
-      {"timestamp": "2026-02-06T21:55:00.000Z", "message": "Ready for GitHub repo creation and initial push"}
+      {
+        "timestamp": "2026-02-06T21:30:00.000Z",
+        "message": "Task created: Implement Task Manager Control Tower"
+      },
+      {
+        "timestamp": "2026-02-06T21:35:00.000Z",
+        "message": "Node.js LTS v24.13.0 installed via winget"
+      },
+      {
+        "timestamp": "2026-02-06T21:40:00.000Z",
+        "message": "All server + client dependencies installed"
+      },
+      {
+        "timestamp": "2026-02-06T21:42:00.000Z",
+        "message": "Backend server built: Express + WebSocket + chokidar watcher"
+      },
+      {
+        "timestamp": "2026-02-06T21:44:00.000Z",
+        "message": "React Control Tower UI built with Tailwind dark theme"
+      },
+      {
+        "timestamp": "2026-02-06T21:46:00.000Z",
+        "message": "30/30 unit tests passing"
+      },
+      {
+        "timestamp": "2026-02-06T21:50:00.000Z",
+        "message": "Client build succeeded, server verified on port 4567"
+      },
+      {
+        "timestamp": "2026-02-06T21:55:00.000Z",
+        "message": "Ready for GitHub repo creation and initial push"
+      },
+      {
+        "timestamp": "2026-02-06T22:54:40.267Z",
+        "message": "Data integrity verified after recovery"
+      }
+    ]
+  },
+  {
+    "id": "68c6048b-15f2-4824-9b08-f8b9aa8043cc",
+    "title": "SEVAL Scraping Raw Data - Conversation Evaluation Pipeline",
+    "description": "Process and analyze scraped conversation data for SEVAL pipeline. Source: C:\\Users\\perahmat\\Downloads\\scraping_raw_data_output. Contains QuerySet.tsv, Snapshot.yaml, evaluation_consolidated.csv (Copilot vs ChatGPT vs Gemini), control+experiment conversations, 20+ Python pipeline scripts, generated_output with upload artifacts. Run ID: 333a26a8-36a4-4f04-b6b1-07760e879baf.",
+    "status": "pending",
+    "progress": 14,
+    "subtasks": [
+      {
+        "id": "e05069e7-aa4f-40b0-82c9-9405d51a410a",
+        "title": "Inventory and catalog all source files",
+        "status": "done",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-06T22:51:35.769Z",
+            "message": "Subtask created: Inventory and catalog all source files"
+          }
+        ],
+        "createdAt": "2026-02-06T22:51:35.770Z",
+        "updatedAt": "2026-02-06T22:52:01.325Z"
+      },
+      {
+        "id": "7c74bac4-6645-4e3f-8c98-b75d05f5c571",
+        "title": "Analyze QuerySet.tsv and Snapshot.yaml assertion coverage",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-06T22:51:38.258Z",
+            "message": "Subtask created: Analyze QuerySet.tsv and Snapshot.yaml assertion coverage"
+          }
+        ],
+        "createdAt": "2026-02-06T22:51:38.259Z",
+        "updatedAt": "2026-02-06T22:51:38.259Z"
+      },
+      {
+        "id": "ea88fe2e-b34c-4278-8491-038640488955",
+        "title": "Review evaluation_consolidated.csv multi-model comparison",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-06T22:51:40.684Z",
+            "message": "Subtask created: Review evaluation_consolidated.csv multi-model comparison"
+          }
+        ],
+        "createdAt": "2026-02-06T22:51:40.686Z",
+        "updatedAt": "2026-02-06T22:51:40.686Z"
+      },
+      {
+        "id": "5b117518-6eab-4d84-ab40-811f56945d15",
+        "title": "Audit Python pipeline scripts",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-06T22:51:43.141Z",
+            "message": "Subtask created: Audit Python pipeline scripts"
+          }
+        ],
+        "createdAt": "2026-02-06T22:51:43.142Z",
+        "updatedAt": "2026-02-06T22:51:43.142Z"
+      },
+      {
+        "id": "7adb3aef-7979-4014-8e28-9affcb5a07af",
+        "title": "Validate generated_output upload artifacts",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-06T22:51:45.482Z",
+            "message": "Subtask created: Validate generated_output upload artifacts"
+          }
+        ],
+        "createdAt": "2026-02-06T22:51:45.483Z",
+        "updatedAt": "2026-02-06T22:51:45.483Z"
+      },
+      {
+        "id": "f63f16ba-fc32-4669-ad6c-850d8dc8385c",
+        "title": "Review control vs experiment conversation quality",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-06T22:51:47.937Z",
+            "message": "Subtask created: Review control vs experiment conversation quality"
+          }
+        ],
+        "createdAt": "2026-02-06T22:51:47.938Z",
+        "updatedAt": "2026-02-06T22:51:47.939Z"
+      },
+      {
+        "id": "dc809676-a19e-4abc-bb53-3cb12542d1ad",
+        "title": "Document findings and summary report",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-06T22:51:50.335Z",
+            "message": "Subtask created: Document findings and summary report"
+          }
+        ],
+        "createdAt": "2026-02-06T22:51:50.336Z",
+        "updatedAt": "2026-02-06T22:51:50.336Z"
+      }
+    ],
+    "githubRepo": "",
+    "branch": "",
+    "prUrl": "",
+    "associatedFiles": [],
+    "createdAt": "2026-02-06T22:51:14.629Z",
+    "updatedAt": "2026-02-06T22:52:01.327Z",
+    "logs": [
+      {
+        "timestamp": "2026-02-06T22:51:14.630Z",
+        "message": "Task created: SEVAL Scraping Raw Data - Conversation Evaluation Pipeline"
+      }
     ]
   }
 ]

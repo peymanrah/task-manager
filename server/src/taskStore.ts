@@ -39,8 +39,8 @@ export interface Task {
 
 // ─── Paths ───────────────────────────────────────────────────────────────────
 
-const DATA_DIR = path.resolve(__dirname, '..', '..', 'data');
-const TASKS_FILE = path.join(DATA_DIR, 'tasks.json');
+const DATA_DIR = process.env.TASK_MANAGER_DATA_DIR || path.resolve(__dirname, '..', '..', 'data');
+const TASKS_FILE = process.env.TASK_MANAGER_DATA_FILE || path.join(DATA_DIR, 'tasks.json');
 
 export function getTasksFilePath(): string {
   return TASKS_FILE;
