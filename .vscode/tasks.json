@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Task Manager: Dev Server",
+      "label": "Task Manager: Control Tower Server",
       "type": "shell",
-      "command": "npm run dev",
+      "command": "powershell.exe -ExecutionPolicy Bypass -File \"${workspaceFolder}\\start-server.ps1\"",
       "isBackground": true,
       "problemMatcher": [],
       "group": {
@@ -12,8 +12,9 @@
         "isDefault": true
       },
       "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
+        "reveal": "silent",
+        "panel": "dedicated",
+        "showReuseMessage": false
       },
       "runOptions": {
         "runOn": "folderOpen"

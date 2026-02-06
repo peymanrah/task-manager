@@ -94,10 +94,46 @@ watcher.on('change', () => {
 // ─── Start ───────────────────────────────────────────────────────────────────
 
 if (require.main === module) {
+  server.on('error', (err: NodeJS.ErrnoException) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n❌ Port ${PORT} is already in use. Retrying in 3s...\n`);
+      setTimeout(() => {
+        server.close();
+        server.listen(PORT);
+      }, 3000);
+    } else {
+      console.error('Server error:', err);
+      process.exit(1);
+    }
+  });
+
   server.listen(PORT, () => {
     console.log(`\n🚀 Task Manager Control Tower Server running on http://localhost:${PORT}`);
     console.log(`   WebSocket active on ws://localhost:${PORT}`);
     console.log(`   Watching: ${tasksFile}\n`);
+  });
+
+  // Graceful shutdown
+  process.on('SIGINT', () => {
+    console.log('\n🛑 Shutting down gracefully...');
+    watcher.close();
+    wss.close();
+    server.close(() => process.exit(0));
+  });
+
+  process.on('SIGTERM', () => {
+    watcher.close();
+    wss.close();
+    server.close(() => process.exit(0));
+  });
+
+  // Catch unhandled errors to prevent crashing
+  process.on('uncaughtException', (err) => {
+    console.error('Uncaught exception:', err);
+  });
+
+  process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled rejection:', reason);
   });
 }
 
