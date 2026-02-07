@@ -30,10 +30,19 @@ app.use(express.text({ type: 'text/plain' }));
 // ─── REST API ────────────────────────────────────────────────────────────────
 
 app.get('/api/tasks', (_req, res) => {
-  const tasks = getAllTasks().map(t => ({
-    ...t,
-    topic: t.topic || classifyTopic(t.title, t.description),
-  }));
+  const tasks = getAllTasks();
+  let dirty = false;
+  for (const t of tasks) {
+    if (!t.topic) {
+      t.topic = classifyTopic(t.title, t.description);
+      dirty = true;
+    }
+  }
+  if (dirty) {
+    // Persist backfilled topics so they stick
+    const tasksFile = getTasksFilePath();
+    fs.writeFileSync(tasksFile, JSON.stringify(tasks, null, 2), 'utf-8');
+  }
   res.json(tasks);
 });
 

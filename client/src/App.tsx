@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useTaskStream } from './hooks/useTaskStream';
 import { ThemeProvider } from './hooks/useTheme';
 import Header from './components/Header';
-import TaskCard, { TOPIC_CONFIG } from './components/TaskCard';
+import TaskCard, { TOPIC_CONFIG, TOPIC_ICONS } from './components/TaskCard';
 import TaskDetail from './components/TaskDetail';
 import Timeline from './components/Timeline';
 import { Task, TaskStatus, TaskTopic } from './types';
@@ -91,15 +91,19 @@ function AppContent() {
           <div className="flex gap-6 overflow-x-auto pb-4">
             {topicGroups.map(([topic, topicTasks]) => {
               const cfg = TOPIC_CONFIG[topic as TaskTopic] || TOPIC_CONFIG.other;
+              const IconComponent = TOPIC_ICONS[topic as TaskTopic] || TOPIC_ICONS.other;
+              const colorClass = cfg.color.split(' ')[0];
               return (
                 <div key={topic} className="flex-shrink-0 w-80">
                   {/* Column header */}
-                  <div className={`flex items-center gap-2 mb-4 px-2 py-2 rounded-lg border border-tower-border/50 glass`}>
-                    <span className={`flex items-center gap-1.5 text-xs font-semibold ${cfg.color.split(' ')[0]}`}>
-                      {cfg.icon}
+                  <div className={`flex items-center gap-2.5 mb-4 px-3 py-2.5 rounded-xl border border-tower-border/50 glass`}>
+                    <div className={`flex items-center justify-center w-7 h-7 rounded-lg ${cfg.color.split(' ')[1]} ${colorClass}`}>
+                      <IconComponent size={16} />
+                    </div>
+                    <span className={`text-sm font-semibold text-tower-text`}>
                       {cfg.label}
                     </span>
-                    <span className="text-[10px] text-tower-muted ml-auto font-mono">{topicTasks.length}</span>
+                    <span className="text-xs text-tower-muted ml-auto font-mono bg-tower-bg/50 px-2 py-0.5 rounded-full">{topicTasks.length}</span>
                   </div>
                   {/* Tasks */}
                   <div className="space-y-3">

@@ -47,9 +47,9 @@ function now() { return new Date().toISOString(); }
 // ─── Topic Classification ────────────────────────────────────────────────────
 
 const TOPIC_PATTERNS = {
-  research: [/research/i, /paper/i, /arxiv/i, /nature/i, /neural/i, /architecture/i, /ablation/i, /rlan/i, /sci[\s-]/i, /causal/i, /invariance/i, /attractor/i, /arc[\s-]agi/i, /compositional/i],
-  'data-science': [/data\s*(science|pipeline|scraping|processing)/i, /seval/i, /dataset/i, /analytics/i, /etl/i, /pandas/i, /jupyter/i, /csv/i, /clustering/i],
-  evaluation: [/evaluat/i, /benchmark/i, /scoring/i, /judge/i, /copilot\s+eval/i, /ux\s+eval/i, /quality/i, /metric/i, /leaderboard/i],
+  research: [/research/i, /paper/i, /arxiv/i, /nature/i, /neural/i, /architecture/i, /ablation/i, /rlan/i, /sci[\s-]/i, /causal/i, /invariance/i, /attractor/i, /arc[\s-]agi/i, /compositional/i, /agent/i, /subagent/i],
+  'data-science': [/data\s*(science|pipeline|scraping|processing)/i, /seval/i, /dataset/i, /analytics/i, /etl/i, /pandas/i, /jupyter/i, /csv/i, /clustering/i, /copilot\s+eval/i, /ux\s+(eval|benchmark)/i, /evaluation\s+(framework|pipeline)/i, /benchmark/i, /scoring/i, /leaderboard/i],
+  evaluation: [/evaluat/i, /judge/i, /quality/i, /metric/i],
   coding: [/implement/i, /build/i, /full[\s-]stack/i, /react/i, /typescript/i, /node\.?js/i, /express/i, /websocket/i, /api/i, /frontend/i, /backend/i, /crud/i, /ui/i, /app/i, /task\s*manager/i],
   devops: [/deploy/i, /ci[\s/]cd/i, /docker/i, /kubernetes/i, /pipeline/i, /infra/i, /terraform/i, /github\s+actions/i],
   conversation: [/chat/i, /conversation/i, /dialog/i, /prompt/i, /multi[\s-]turn/i],

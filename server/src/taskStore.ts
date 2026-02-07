@@ -117,9 +117,9 @@ export function classifyTopic(title: string, description: string): TaskTopic {
   const text = `${title} ${description}`.toLowerCase();
 
   const patterns: Record<TaskTopic, RegExp[]> = {
-    research: [/research/i, /paper/i, /arxiv/i, /nature/i, /neural/i, /architecture/i, /ablation/i, /benchmark/i, /model\s+(comparison|training)/i, /rlan/i, /sci[\s-]/i, /causal/i, /invariance/i, /attractor/i, /arc[\s-]agi/i, /compositional/i],
-    'data-science': [/data\s*(science|pipeline|scraping|processing)/i, /seval/i, /dataset/i, /analytics/i, /etl/i, /pandas/i, /jupyter/i, /notebook/i, /csv/i, /clustering/i, /ml\s+pipeline/i],
-    evaluation: [/evaluat/i, /benchmark/i, /scoring/i, /judge/i, /copilot\s+eval/i, /ux\s+eval/i, /quality/i, /metric/i, /leaderboard/i],
+    research: [/research/i, /paper/i, /arxiv/i, /nature/i, /neural/i, /architecture/i, /ablation/i, /model\s+(comparison|training)/i, /rlan/i, /sci[\s-]/i, /causal/i, /invariance/i, /attractor/i, /arc[\s-]agi/i, /compositional/i, /agent/i, /subagent/i],
+    'data-science': [/data\s*(science|pipeline|scraping|processing)/i, /seval/i, /dataset/i, /analytics/i, /etl/i, /pandas/i, /jupyter/i, /notebook/i, /csv/i, /clustering/i, /ml\s+pipeline/i, /copilot\s+eval/i, /ux\s+(eval|benchmark)/i, /evaluation\s+(framework|pipeline)/i, /benchmark/i, /scoring/i, /leaderboard/i],
+    evaluation: [/evaluat/i, /judge/i, /quality/i, /metric/i],
     coding: [/implement/i, /build/i, /full[\s-]stack/i, /react/i, /typescript/i, /node\.?js/i, /express/i, /websocket/i, /api/i, /frontend/i, /backend/i, /crud/i, /ui/i, /app/i, /framework/i, /task\s*manager/i],
     devops: [/deploy/i, /ci[\s/]cd/i, /docker/i, /kubernetes/i, /pipeline/i, /infra/i, /terraform/i, /aws/i, /azure\s+devops/i, /github\s+actions/i],
     conversation: [/chat/i, /conversation/i, /dialog/i, /prompt/i, /llm\s+conversation/i, /multi[\s-]turn/i],

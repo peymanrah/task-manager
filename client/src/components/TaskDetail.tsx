@@ -20,6 +20,7 @@ import {
   Upload,
 } from 'lucide-react';
 import { Task, Subtask, TaskStatus, LogEntry } from '../types';
+import { TOPIC_CONFIG } from './TaskCard';
 
 interface TaskDetailProps {
   task: Task;
@@ -78,6 +79,15 @@ export default function TaskDetail({ task, onClose, onDeleteSubtask }: TaskDetai
               <span className={`text-xs font-semibold uppercase tracking-wider ${STATUS_COLOR[task.status]}`}>
                 {task.status}
               </span>
+              {task.topic && (() => {
+                const topicCfg = TOPIC_CONFIG[task.topic] || TOPIC_CONFIG.other;
+                return (
+                  <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium ${topicCfg.color}`}>
+                    {topicCfg.icon}
+                    {topicCfg.label}
+                  </div>
+                );
+              })()}
             </div>
             <button
               onClick={onClose}

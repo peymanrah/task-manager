@@ -60,14 +60,24 @@ const STATUS_CONFIG: Record<
   },
 };
 
+export const TOPIC_ICONS: Record<TaskTopic, React.FC<{ size?: number }>> = {
+  coding: Code2,
+  research: FlaskConical,
+  'data-science': BarChart3,
+  evaluation: ClipboardCheck,
+  devops: Server,
+  conversation: MessageCircle,
+  other: HelpCircle,
+};
+
 const TOPIC_CONFIG: Record<TaskTopic, { icon: React.ReactNode; label: string; color: string }> = {
-  coding: { icon: <Code2 size={10} />, label: 'Coding', color: 'text-blue-400 bg-blue-400/10' },
-  research: { icon: <FlaskConical size={10} />, label: 'Research', color: 'text-purple-400 bg-purple-400/10' },
-  'data-science': { icon: <BarChart3 size={10} />, label: 'Data Science', color: 'text-emerald-400 bg-emerald-400/10' },
-  evaluation: { icon: <ClipboardCheck size={10} />, label: 'Evaluation', color: 'text-amber-400 bg-amber-400/10' },
-  devops: { icon: <Server size={10} />, label: 'DevOps', color: 'text-cyan-400 bg-cyan-400/10' },
-  conversation: { icon: <MessageCircle size={10} />, label: 'Conversation', color: 'text-pink-400 bg-pink-400/10' },
-  other: { icon: <HelpCircle size={10} />, label: 'Other', color: 'text-gray-400 bg-gray-400/10' },
+  coding: { icon: <Code2 size={12} />, label: 'Coding', color: 'text-blue-400 bg-blue-400/10' },
+  research: { icon: <FlaskConical size={12} />, label: 'Research', color: 'text-purple-400 bg-purple-400/10' },
+  'data-science': { icon: <BarChart3 size={12} />, label: 'Data Science', color: 'text-emerald-400 bg-emerald-400/10' },
+  evaluation: { icon: <ClipboardCheck size={12} />, label: 'Evaluation', color: 'text-amber-400 bg-amber-400/10' },
+  devops: { icon: <Server size={12} />, label: 'DevOps', color: 'text-cyan-400 bg-cyan-400/10' },
+  conversation: { icon: <MessageCircle size={12} />, label: 'Conversation', color: 'text-pink-400 bg-pink-400/10' },
+  other: { icon: <HelpCircle size={12} />, label: 'Other', color: 'text-gray-400 bg-gray-400/10' },
 };
 
 export { TOPIC_CONFIG };
@@ -99,12 +109,12 @@ export default function TaskCard({ task, onClick, onDelete }: TaskCardProps) {
       </button>
 
       {/* Status & Topic badges */}
-      <div className="flex items-center gap-2 mb-3">
-        <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium ${cfg.bg} ${cfg.color}`}>
+      <div className="flex items-center gap-2 mb-3 flex-wrap">
+        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium ${cfg.bg} ${cfg.color}`}>
           {cfg.icon}
           {cfg.label}
         </div>
-        <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${topicCfg.color}`}>
+        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium ${topicCfg.color}`}>
           {topicCfg.icon}
           {topicCfg.label}
         </div>
