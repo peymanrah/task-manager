@@ -17,6 +17,7 @@ import {
   BookOpen,
   LayoutList,
   Download,
+  Upload,
 } from 'lucide-react';
 import { Task, Subtask, TaskStatus, LogEntry } from '../types';
 
@@ -112,7 +113,7 @@ export default function TaskDetail({ task, onClose, onDeleteSubtask }: TaskDetai
         {activeTab === 'details' ? (
           <DetailsTab task={task} onDeleteSubtask={onDeleteSubtask} />
         ) : (
-          <SpecTab spec={spec} loading={specLoading} taskTitle={task.title} />
+          <SpecTab spec={spec} loading={specLoading} taskTitle={task.title} taskId={task.id} onSpecImported={(s) => setSpec(s)} />
         )}
       </div>
     </div>
@@ -263,7 +264,11 @@ function DetailsTab({ task, onDeleteSubtask }: { task: Task; onDeleteSubtask: (i
 
 // ─── Spec Tab ────────────────────────────────────────────────────────────────
 
-function SpecTab({ spec, loading, taskTitle }: { spec: string; loading: boolean; taskTitle: string }) {
+function SpecTab({ spec, loading, taskTitle, taskId, onSpecImported }: {
+  spec: string; loading: boolean; taskTitle: string; taskId: string; onSpecImported: (s: string) => void;
+}) {
+  const [importing, setImporting] = useState(false);
+
   const exportSpec = () => {
     const blob = new Blob([spec], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
@@ -272,6 +277,32 @@ function SpecTab({ spec, loading, taskTitle }: { spec: string; loading: boolean;
     a.download = `${taskTitle.replace(/[^a-zA-Z0-9-_ ]/g, '').replace(/\s+/g, '_')}_spec.md`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const importSpec = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.md,.markdown,.txt';
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      setImporting(true);
+      try {
+        const text = await file.text();
+        const merged = spec ? `${spec}\n\n---\n\n<!-- Imported from ${file.name} -->\n\n${text}` : text;
+        await fetch(`/api/tasks/${taskId}/spec`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ spec: merged }),
+        });
+        onSpecImported(merged);
+      } catch (err) {
+        console.error('Failed to import spec:', err);
+      } finally {
+        setImporting(false);
+      }
+    };
+    input.click();
   };
 
   if (loading) {
@@ -287,17 +318,38 @@ function SpecTab({ spec, loading, taskTitle }: { spec: string; loading: boolean;
       <div className="flex flex-col items-center justify-center py-20 text-tower-muted px-6">
         <BookOpen size={40} className="mb-3 opacity-40" />
         <h3 className="text-sm font-semibold mb-1">No spec yet</h3>
-        <p className="text-xs text-center max-w-xs">
+        <p className="text-xs text-center max-w-xs mb-4">
           The spec document will be created automatically when the agent works on this task.
           It captures requirements, planning, checklists, and considerations.
         </p>
+        <button
+          onClick={importSpec}
+          disabled={importing}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
+                     bg-tower-accent/10 text-tower-accent hover:bg-tower-accent/20 transition-colors
+                     disabled:opacity-50"
+        >
+          {importing ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+          Import .md
+        </button>
       </div>
     );
   }
 
   return (
     <div className="px-6 py-4">
-      <div className="flex justify-end mb-3">
+      <div className="flex justify-end gap-2 mb-3">
+        <button
+          onClick={importSpec}
+          disabled={importing}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
+                     bg-tower-card border border-tower-border text-tower-muted
+                     hover:border-tower-accent/50 hover:text-tower-accent transition-colors
+                     disabled:opacity-50"
+        >
+          {importing ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+          Import .md
+        </button>
         <button
           onClick={exportSpec}
           className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
