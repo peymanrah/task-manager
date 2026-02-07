@@ -8,6 +8,7 @@ import {
   XCircle,
   AlertTriangle,
   GitBranch,
+  Github,
   GitPullRequest,
   ExternalLink,
   FileText,
@@ -15,6 +16,7 @@ import {
   MessageSquare,
   BookOpen,
   LayoutList,
+  Download,
 } from 'lucide-react';
 import { Task, Subtask, TaskStatus, LogEntry } from '../types';
 
@@ -110,7 +112,7 @@ export default function TaskDetail({ task, onClose, onDeleteSubtask }: TaskDetai
         {activeTab === 'details' ? (
           <DetailsTab task={task} onDeleteSubtask={onDeleteSubtask} />
         ) : (
-          <SpecTab spec={spec} loading={specLoading} />
+          <SpecTab spec={spec} loading={specLoading} taskTitle={task.title} />
         )}
       </div>
     </div>
@@ -178,7 +180,7 @@ function DetailsTab({ task, onDeleteSubtask }: { task: Task; onDeleteSubtask: (i
         <Section title="GitHub">
           <div className="space-y-2">
             {task.githubRepo && (
-              <LinkRow icon={<GitBranch size={14} />} label="Repository" href={task.githubRepo} />
+              <LinkRow icon={<Github size={14} />} label="Repository" href={task.githubRepo} />
             )}
             {task.branch && (
               <div className="flex items-center gap-2 text-sm text-tower-muted">
@@ -261,7 +263,17 @@ function DetailsTab({ task, onDeleteSubtask }: { task: Task; onDeleteSubtask: (i
 
 // ─── Spec Tab ────────────────────────────────────────────────────────────────
 
-function SpecTab({ spec, loading }: { spec: string; loading: boolean }) {
+function SpecTab({ spec, loading, taskTitle }: { spec: string; loading: boolean; taskTitle: string }) {
+  const exportSpec = () => {
+    const blob = new Blob([spec], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${taskTitle.replace(/[^a-zA-Z0-9-_ ]/g, '').replace(/\s+/g, '_')}_spec.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -285,6 +297,16 @@ function SpecTab({ spec, loading }: { spec: string; loading: boolean }) {
 
   return (
     <div className="px-6 py-4">
+      <div className="flex justify-end mb-3">
+        <button
+          onClick={exportSpec}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
+                     bg-tower-accent/10 text-tower-accent hover:bg-tower-accent/20 transition-colors"
+        >
+          <Download size={14} />
+          Export .md
+        </button>
+      </div>
       <div className="spec-markdown text-tower-text">
         <ReactMarkdown>{spec}</ReactMarkdown>
       </div>

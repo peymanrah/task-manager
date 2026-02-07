@@ -15,9 +15,11 @@ import {
   writeSpec,
   deleteSpec,
   getSpecsDir,
+  classifyTopic,
 } from './taskStore';
 
 import * as fs from 'fs';
+import * as os from 'os';
 
 const PORT = parseInt(process.env.PORT || '4567', 10);
 const app = express();
@@ -28,7 +30,11 @@ app.use(express.text({ type: 'text/plain' }));
 // ─── REST API ────────────────────────────────────────────────────────────────
 
 app.get('/api/tasks', (_req, res) => {
-  res.json(getAllTasks());
+  const tasks = getAllTasks().map(t => ({
+    ...t,
+    topic: t.topic || classifyTopic(t.title, t.description),
+  }));
+  res.json(tasks);
 });
 
 app.get('/api/tasks/:id', (req, res) => {
@@ -120,6 +126,21 @@ app.get('/api/lessons', (_req, res) => {
   }
 
   res.json(lessons);
+});
+
+// ─── User Info API ───────────────────────────────────────────────────────────
+
+app.get('/api/user', (_req, res) => {
+  const username = os.userInfo().username || process.env.USERNAME || 'User';
+  // Try to get git config for name/email
+  let displayName = username;
+  let email = '';
+  try {
+    const { execSync } = require('child_process');
+    displayName = execSync('git config user.name', { encoding: 'utf-8' }).trim() || username;
+    email = execSync('git config user.email', { encoding: 'utf-8' }).trim();
+  } catch { /* fallback to OS username */ }
+  res.json({ username, displayName, email });
 });
 
 // Serve static React build

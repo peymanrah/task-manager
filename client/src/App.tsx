@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTaskStream } from './hooks/useTaskStream';
 import { ThemeProvider } from './hooks/useTheme';
 import Header from './components/Header';
-import TaskCard from './components/TaskCard';
+import TaskCard, { TOPIC_CONFIG } from './components/TaskCard';
 import TaskDetail from './components/TaskDetail';
 import Timeline from './components/Timeline';
-import { Task, TaskStatus } from './types';
+import { Task, TaskStatus, TaskTopic } from './types';
 
 export type ViewMode = 'cards' | 'timeline';
 
@@ -29,6 +29,25 @@ function AppContent() {
     if (search && !t.title.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
+
+  // Group tasks by topic, sorted newest-first within each group
+  const topicGroups = useMemo(() => {
+    const groups: Record<string, Task[]> = {};
+    const sorted = [...filtered].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    for (const task of sorted) {
+      const topic = task.topic || 'other';
+      if (!groups[topic]) groups[topic] = [];
+      groups[topic].push(task);
+    }
+    // Sort topic keys by priority order
+    const topicOrder: TaskTopic[] = ['coding', 'research', 'data-science', 'evaluation', 'devops', 'conversation', 'other'];
+    const ordered: [string, Task[]][] = topicOrder
+      .filter(t => groups[t])
+      .map(t => [t, groups[t]]);
+    return ordered;
+  }, [filtered]);
 
   const stats = {
     total: tasks.length,
@@ -69,18 +88,36 @@ function AppContent() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((task) => (
-              <TaskCard
-                key={task.id}
-                task={task}
-                onClick={() => setSelectedTask(task)}
-                onDelete={() => {
-                  if (selectedTask?.id === task.id) setSelectedTask(null);
-                  deleteTask(task.id);
-                }}
-              />
-            ))}
+          <div className="flex gap-6 overflow-x-auto pb-4">
+            {topicGroups.map(([topic, topicTasks]) => {
+              const cfg = TOPIC_CONFIG[topic as TaskTopic] || TOPIC_CONFIG.other;
+              return (
+                <div key={topic} className="flex-shrink-0 w-80">
+                  {/* Column header */}
+                  <div className={`flex items-center gap-2 mb-4 px-2 py-2 rounded-lg border border-tower-border/50 glass`}>
+                    <span className={`flex items-center gap-1.5 text-xs font-semibold ${cfg.color.split(' ')[0]}`}>
+                      {cfg.icon}
+                      {cfg.label}
+                    </span>
+                    <span className="text-[10px] text-tower-muted ml-auto font-mono">{topicTasks.length}</span>
+                  </div>
+                  {/* Tasks */}
+                  <div className="space-y-3">
+                    {topicTasks.map((task) => (
+                      <TaskCard
+                        key={task.id}
+                        task={task}
+                        onClick={() => setSelectedTask(task)}
+                        onDelete={() => {
+                          if (selectedTask?.id === task.id) setSelectedTask(null);
+                          deleteTask(task.id);
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </main>

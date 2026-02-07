@@ -4,12 +4,19 @@ import {
   CheckCircle2,
   XCircle,
   AlertTriangle,
-  GitBranch,
+  Github,
   ExternalLink,
   Trash2,
   ChevronRight,
+  Code2,
+  FlaskConical,
+  BarChart3,
+  ClipboardCheck,
+  Server,
+  MessageCircle,
+  HelpCircle,
 } from 'lucide-react';
-import { Task, TaskStatus } from '../types';
+import { Task, TaskStatus, TaskTopic } from '../types';
 
 interface TaskCardProps {
   task: Task;
@@ -53,8 +60,21 @@ const STATUS_CONFIG: Record<
   },
 };
 
+const TOPIC_CONFIG: Record<TaskTopic, { icon: React.ReactNode; label: string; color: string }> = {
+  coding: { icon: <Code2 size={10} />, label: 'Coding', color: 'text-blue-400 bg-blue-400/10' },
+  research: { icon: <FlaskConical size={10} />, label: 'Research', color: 'text-purple-400 bg-purple-400/10' },
+  'data-science': { icon: <BarChart3 size={10} />, label: 'Data Science', color: 'text-emerald-400 bg-emerald-400/10' },
+  evaluation: { icon: <ClipboardCheck size={10} />, label: 'Evaluation', color: 'text-amber-400 bg-amber-400/10' },
+  devops: { icon: <Server size={10} />, label: 'DevOps', color: 'text-cyan-400 bg-cyan-400/10' },
+  conversation: { icon: <MessageCircle size={10} />, label: 'Conversation', color: 'text-pink-400 bg-pink-400/10' },
+  other: { icon: <HelpCircle size={10} />, label: 'Other', color: 'text-gray-400 bg-gray-400/10' },
+};
+
+export { TOPIC_CONFIG };
+
 export default function TaskCard({ task, onClick, onDelete }: TaskCardProps) {
   const cfg = STATUS_CONFIG[task.status];
+  const topicCfg = TOPIC_CONFIG[task.topic || 'other'];
   const subtasksDone = task.subtasks.filter((s) => s.status === 'done').length;
   const subtasksTotal = task.subtasks.length;
 
@@ -78,10 +98,16 @@ export default function TaskCard({ task, onClick, onDelete }: TaskCardProps) {
         <Trash2 size={14} />
       </button>
 
-      {/* Status badge */}
-      <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium ${cfg.bg} ${cfg.color} mb-3`}>
-        {cfg.icon}
-        {cfg.label}
+      {/* Status & Topic badges */}
+      <div className="flex items-center gap-2 mb-3">
+        <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium ${cfg.bg} ${cfg.color}`}>
+          {cfg.icon}
+          {cfg.label}
+        </div>
+        <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${topicCfg.color}`}>
+          {topicCfg.icon}
+          {topicCfg.label}
+        </div>
       </div>
 
       {/* Title */}
@@ -128,9 +154,9 @@ export default function TaskCard({ task, onClick, onDelete }: TaskCardProps) {
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               className="flex items-center gap-1 hover:text-tower-accent transition-colors"
+              title={task.githubRepo}
             >
-              <GitBranch size={10} />
-              Repo
+              <Github size={12} />
               <ExternalLink size={8} />
             </a>
           )}

@@ -21,12 +21,15 @@ export interface Subtask {
   updatedAt: string;
 }
 
+export type TaskTopic = 'coding' | 'research' | 'data-science' | 'evaluation' | 'devops' | 'conversation' | 'other';
+
 export interface Task {
   id: string;
   title: string;
   description: string;
   status: TaskStatus;
   progress: number;
+  topic: TaskTopic;
   subtasks: Subtask[];
   githubRepo: string;
   branch: string;
@@ -108,6 +111,35 @@ function now(): string {
   return new Date().toISOString();
 }
 
+// ─── Topic Classification ────────────────────────────────────────────────────
+
+export function classifyTopic(title: string, description: string): TaskTopic {
+  const text = `${title} ${description}`.toLowerCase();
+
+  const patterns: Record<TaskTopic, RegExp[]> = {
+    research: [/research/i, /paper/i, /arxiv/i, /nature/i, /neural/i, /architecture/i, /ablation/i, /benchmark/i, /model\s+(comparison|training)/i, /rlan/i, /sci[\s-]/i, /causal/i, /invariance/i, /attractor/i, /arc[\s-]agi/i, /compositional/i],
+    'data-science': [/data\s*(science|pipeline|scraping|processing)/i, /seval/i, /dataset/i, /analytics/i, /etl/i, /pandas/i, /jupyter/i, /notebook/i, /csv/i, /clustering/i, /ml\s+pipeline/i],
+    evaluation: [/evaluat/i, /benchmark/i, /scoring/i, /judge/i, /copilot\s+eval/i, /ux\s+eval/i, /quality/i, /metric/i, /leaderboard/i],
+    coding: [/implement/i, /build/i, /full[\s-]stack/i, /react/i, /typescript/i, /node\.?js/i, /express/i, /websocket/i, /api/i, /frontend/i, /backend/i, /crud/i, /ui/i, /app/i, /framework/i, /task\s*manager/i],
+    devops: [/deploy/i, /ci[\s/]cd/i, /docker/i, /kubernetes/i, /pipeline/i, /infra/i, /terraform/i, /aws/i, /azure\s+devops/i, /github\s+actions/i],
+    conversation: [/chat/i, /conversation/i, /dialog/i, /prompt/i, /llm\s+conversation/i, /multi[\s-]turn/i],
+    other: [],
+  };
+
+  // Score each topic
+  let best: TaskTopic = 'other';
+  let bestScore = 0;
+  for (const [topic, regexps] of Object.entries(patterns) as [TaskTopic, RegExp[]][]) {
+    const score = regexps.filter(r => r.test(text)).length;
+    if (score > bestScore) {
+      bestScore = score;
+      best = topic;
+    }
+  }
+
+  return best;
+}
+
 // ─── CRUD Operations ─────────────────────────────────────────────────────────
 
 export function getAllTasks(): Task[] {
@@ -123,6 +155,7 @@ export function createTask(params: {
   description?: string;
   githubRepo?: string;
   branch?: string;
+  topic?: TaskTopic;
 }): Task {
   const tasks = readTasks();
   const task: Task = {
@@ -131,6 +164,7 @@ export function createTask(params: {
     description: params.description || '',
     status: 'pending',
     progress: 0,
+    topic: params.topic || classifyTopic(params.title, params.description || ''),
     subtasks: [],
     githubRepo: params.githubRepo || '',
     branch: params.branch || '',

@@ -44,6 +44,28 @@ function writeTasks(tasks) {
 
 function now() { return new Date().toISOString(); }
 
+// ─── Topic Classification ────────────────────────────────────────────────────
+
+const TOPIC_PATTERNS = {
+  research: [/research/i, /paper/i, /arxiv/i, /nature/i, /neural/i, /architecture/i, /ablation/i, /rlan/i, /sci[\s-]/i, /causal/i, /invariance/i, /attractor/i, /arc[\s-]agi/i, /compositional/i],
+  'data-science': [/data\s*(science|pipeline|scraping|processing)/i, /seval/i, /dataset/i, /analytics/i, /etl/i, /pandas/i, /jupyter/i, /csv/i, /clustering/i],
+  evaluation: [/evaluat/i, /benchmark/i, /scoring/i, /judge/i, /copilot\s+eval/i, /ux\s+eval/i, /quality/i, /metric/i, /leaderboard/i],
+  coding: [/implement/i, /build/i, /full[\s-]stack/i, /react/i, /typescript/i, /node\.?js/i, /express/i, /websocket/i, /api/i, /frontend/i, /backend/i, /crud/i, /ui/i, /app/i, /task\s*manager/i],
+  devops: [/deploy/i, /ci[\s/]cd/i, /docker/i, /kubernetes/i, /pipeline/i, /infra/i, /terraform/i, /github\s+actions/i],
+  conversation: [/chat/i, /conversation/i, /dialog/i, /prompt/i, /multi[\s-]turn/i],
+};
+
+function classifyTopic(title, description) {
+  const text = `${title} ${description || ''}`.toLowerCase();
+  let best = 'other';
+  let bestScore = 0;
+  for (const [topic, regexps] of Object.entries(TOPIC_PATTERNS)) {
+    const score = regexps.filter(r => r.test(text)).length;
+    if (score > bestScore) { bestScore = score; best = topic; }
+  }
+  return best;
+}
+
 // ─── Create MCP Server ──────────────────────────────────────────────────────
 
 const server = new McpServer({
@@ -65,6 +87,7 @@ server.tool(
       description: t.description,
       status: t.status,
       progress: t.progress,
+      topic: t.topic || classifyTopic(t.title, t.description || ''),
       subtasks: `${t.subtasks.filter(s => s.status === 'done').length}/${t.subtasks.length}`,
       createdAt: t.createdAt,
       updatedAt: t.updatedAt,
@@ -97,8 +120,9 @@ server.tool(
     description: z.string().optional().describe('Detailed task description'),
     githubRepo: z.string().optional().describe('GitHub repository URL'),
     branch: z.string().optional().describe('Git branch name'),
+    topic: z.enum(['coding', 'research', 'data-science', 'evaluation', 'devops', 'conversation', 'other']).optional().describe('Task topic category'),
   },
-  async ({ title, description, githubRepo, branch }) => {
+  async ({ title, description, githubRepo, branch, topic }) => {
     const tasks = readTasks();
     const task = {
       id: uuidv4(),
@@ -106,6 +130,7 @@ server.tool(
       description: description || '',
       status: 'pending',
       progress: 0,
+      topic: topic || classifyTopic(title, description || ''),
       subtasks: [],
       githubRepo: githubRepo || '',
       branch: branch || '',

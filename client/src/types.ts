@@ -1,4 +1,5 @@
 export type TaskStatus = 'pending' | 'in-progress' | 'done' | 'failed' | 'blocked';
+export type TaskTopic = 'coding' | 'research' | 'data-science' | 'evaluation' | 'devops' | 'conversation' | 'other';
 
 export interface LogEntry {
   timestamp: string;
@@ -21,6 +22,7 @@ export interface Task {
   description: string;
   status: TaskStatus;
   progress: number;
+  topic: TaskTopic;
   subtasks: Subtask[];
   githubRepo: string;
   branch: string;

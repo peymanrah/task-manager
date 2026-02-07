@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Task } from './types';
+import { Task } from '../types';
 
 const WS_URL = `ws://${window.location.hostname}:4567`;
 const API_URL = '/api';

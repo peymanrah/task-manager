@@ -128,7 +128,7 @@
         "updatedAt": "2026-02-06T21:55:00.000Z"
       }
     ],
-    "githubRepo": "",
+    "githubRepo": "https://github.com/peymanrah/task-manager",
     "branch": "main",
     "prUrl": "",
     "associatedFiles": [
@@ -143,7 +143,7 @@
       "client/src/hooks/useTaskStream.ts"
     ],
     "createdAt": "2026-02-06T21:30:00.000Z",
-    "updatedAt": "2026-02-06T22:54:40.268Z",
+    "updatedAt": "2026-02-07T01:04:06.441Z",
     "logs": [
       {
         "timestamp": "2026-02-06T21:30:00.000Z",
@@ -299,6 +299,538 @@
       {
         "timestamp": "2026-02-06T22:51:14.630Z",
         "message": "Task created: SEVAL Scraping Raw Data - Conversation Evaluation Pipeline"
+      }
+    ]
+  },
+  {
+    "id": "5a11d8c3-3e99-421c-ba55-8a50680d504b",
+    "title": "Research: Claude Team Agents vs Subagents",
+    "description": "Research how to best use Claude's new team agents versus subagents. Compare capabilities, use cases, performance patterns, and best practices for each approach. Determine when to use team agents vs subagents for optimal results.",
+    "status": "done",
+    "progress": 100,
+    "subtasks": [
+      {
+        "id": "8e9b5ffa-33bf-4773-b1db-226c915be6d4",
+        "title": "Document best practices and recommendations",
+        "status": "done",
+        "progress": 100,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:16:25.067Z",
+            "message": "Subtask created: Document best practices and recommendations"
+          }
+        ],
+        "createdAt": "2026-02-07T00:16:25.067Z",
+        "updatedAt": "2026-02-07T00:37:26.915Z"
+      },
+      {
+        "id": "fbb6139a-8f1f-44c7-b4f6-694645c8f65c",
+        "title": "Compare team agents vs subagents - pros, cons, and trade-offs",
+        "status": "done",
+        "progress": 100,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:16:26.146Z",
+            "message": "Subtask created: Compare team agents vs subagents - pros, cons, and trade-offs"
+          }
+        ],
+        "createdAt": "2026-02-07T00:16:26.146Z",
+        "updatedAt": "2026-02-07T00:36:35.188Z"
+      },
+      {
+        "id": "5d9dff8d-2121-4dcc-a223-a485b9c9c6fc",
+        "title": "Research subagents - capabilities, limitations, and patterns",
+        "status": "done",
+        "progress": 100,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:16:27.104Z",
+            "message": "Subtask created: Research subagents - capabilities, limitations, and patterns"
+          }
+        ],
+        "createdAt": "2026-02-07T00:16:27.104Z",
+        "updatedAt": "2026-02-07T00:36:36.749Z"
+      },
+      {
+        "id": "6ae2776d-79cc-4ac6-bf71-126783f39c80",
+        "title": "Research Claude team agents - capabilities, setup, and use cases",
+        "status": "done",
+        "progress": 100,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:16:28.235Z",
+            "message": "Subtask created: Research Claude team agents - capabilities, setup, and use cases"
+          }
+        ],
+        "createdAt": "2026-02-07T00:16:28.235Z",
+        "updatedAt": "2026-02-07T00:36:38.091Z"
+      }
+    ],
+    "githubRepo": "",
+    "branch": "",
+    "prUrl": "",
+    "associatedFiles": [],
+    "createdAt": "2026-02-07T00:16:03.278Z",
+    "updatedAt": "2026-02-07T00:37:26.916Z",
+    "logs": [
+      {
+        "timestamp": "2026-02-07T00:16:03.279Z",
+        "message": "Task created: Research: Claude Team Agents vs Subagents"
+      }
+    ]
+  },
+  {
+    "id": "6cd9c6c2-c761-44fa-b7eb-f38ed9fbf5e0",
+    "title": "ARC-SCI Research Repos - RLAN & Structural Causal Invariance",
+    "description": "Two research repos on GitHub (peymanrah): 1) SCI-ARC — RLAN (Relational Latent Attractor Networks) for ARC-AGI benchmark, ~2-7.8M params neural architecture with DSC, MSRE, LCR, SPH, RecursiveSolver. 2) SCI — Structural Causal Invariance for compositional generalization on SCAN benchmark using TinyLlama-1.1B, achieving 4.4× OOD improvement. Both target Nature/arXiv-level publication.",
+    "status": "pending",
+    "progress": 0,
+    "subtasks": [
+      {
+        "id": "bf31f1bc-61e6-44db-a2f4-f11a7017e1a8",
+        "title": "SCI-ARC: Environment setup & dependency install (PyTorch 2.1+, CUDA 12+, RTX 3090)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:51:39.561Z",
+            "message": "Subtask created: SCI-ARC: Environment setup & dependency install (PyTorch 2.1+, CUDA 12+, RTX 3090)"
+          }
+        ],
+        "createdAt": "2026-02-07T00:51:39.561Z",
+        "updatedAt": "2026-02-07T00:51:39.561Z"
+      },
+      {
+        "id": "693b56f4-c0fb-436b-bc46-4f15a3e738c7",
+        "title": "SCI-ARC: Run full test suite (62+ tests — modules, integration, learning, data)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:51:45.147Z",
+            "message": "Subtask created: SCI-ARC: Run full test suite (62+ tests — modules, integration, learning, data)"
+          }
+        ],
+        "createdAt": "2026-02-07T00:51:45.147Z",
+        "updatedAt": "2026-02-07T00:51:45.147Z"
+      },
+      {
+        "id": "ab55174e-997a-468f-8589-c442185f6be0",
+        "title": "SCI-ARC: Train RLAN models (small 2M, fair 7.8M, large 51M configs)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:51:50.414Z",
+            "message": "Subtask created: SCI-ARC: Train RLAN models (small 2M, fair 7.8M, large 51M configs)"
+          }
+        ],
+        "createdAt": "2026-02-07T00:51:50.414Z",
+        "updatedAt": "2026-02-07T00:51:50.414Z"
+      },
+      {
+        "id": "e30126ae-8246-42ce-98c1-20018a76c1ef",
+        "title": "SCI-ARC: Evaluate models with CISL metrics (Task Acc, Pixel Acc, IoU, TTA)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:02.458Z",
+            "message": "Subtask created: SCI-ARC: Evaluate models with CISL metrics (Task Acc, Pixel Acc, IoU, TTA)"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:02.458Z",
+        "updatedAt": "2026-02-07T00:52:02.458Z"
+      },
+      {
+        "id": "625db32a-749d-4358-b9b6-73dba969d23e",
+        "title": "SCI-ARC: Fix centroid collapse & solver over-iteration issues",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:07.342Z",
+            "message": "Subtask created: SCI-ARC: Fix centroid collapse & solver over-iteration issues"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:07.342Z",
+        "updatedAt": "2026-02-07T00:52:07.342Z"
+      },
+      {
+        "id": "7697a153-a972-4609-98e5-31aad158a55c",
+        "title": "SCI-ARC: Generate HTML evaluation reports & attention visualizations",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:14.350Z",
+            "message": "Subtask created: SCI-ARC: Generate HTML evaluation reports & attention visualizations"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:14.350Z",
+        "updatedAt": "2026-02-07T00:52:14.350Z"
+      },
+      {
+        "id": "bddd4e38-e8db-4824-9266-88f8400dbea2",
+        "title": "SCI: Environment setup & dependency install (TinyLlama-1.1B, SCAN data)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:18.822Z",
+            "message": "Subtask created: SCI: Environment setup & dependency install (TinyLlama-1.1B, SCAN data)"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:18.823Z",
+        "updatedAt": "2026-02-07T00:52:18.823Z"
+      },
+      {
+        "id": "c2f7ddbe-b8a3-4dc4-8ce9-341ff7c9f5f4",
+        "title": "SCI: Run test suite (components, data leakage, integration)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:25.283Z",
+            "message": "Subtask created: SCI: Run test suite (components, data leakage, integration)"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:25.283Z",
+        "updatedAt": "2026-02-07T00:52:25.283Z"
+      },
+      {
+        "id": "7e68663b-1094-4279-be71-09ced8358544",
+        "title": "SCI: Train baseline + SCI full model + 7 ablation studies",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:28.555Z",
+            "message": "Subtask created: SCI: Train baseline + SCI full model + 7 ablation studies"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:28.555Z",
+        "updatedAt": "2026-02-07T00:52:28.555Z"
+      },
+      {
+        "id": "659d516c-66b4-49bb-9bfc-ab8ca6e385a5",
+        "title": "SCI: Evaluate on SCAN splits (simple, length, template) & generate figures",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:31.897Z",
+            "message": "Subtask created: SCI: Evaluate on SCAN splits (simple, length, template) & generate figures"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:31.897Z",
+        "updatedAt": "2026-02-07T00:52:31.897Z"
+      },
+      {
+        "id": "b8186c82-5786-4da3-906c-03836fdd1173",
+        "title": "SCI: Resolve remaining EdgePredictor & Causal Binding bugs",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:35.905Z",
+            "message": "Subtask created: SCI: Resolve remaining EdgePredictor & Causal Binding bugs"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:35.905Z",
+        "updatedAt": "2026-02-07T00:52:35.905Z"
+      },
+      {
+        "id": "87440d22-a438-423c-95b3-4469d180991b",
+        "title": "Paper preparation: finalize RLAN paper + SCI Nature MI submission",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T00:52:39.610Z",
+            "message": "Subtask created: Paper preparation: finalize RLAN paper + SCI Nature MI submission"
+          }
+        ],
+        "createdAt": "2026-02-07T00:52:39.610Z",
+        "updatedAt": "2026-02-07T00:52:39.610Z"
+      }
+    ],
+    "githubRepo": "https://github.com/peymanrah/SCI-ARC",
+    "branch": "",
+    "prUrl": "",
+    "associatedFiles": [],
+    "createdAt": "2026-02-07T00:51:01.529Z",
+    "updatedAt": "2026-02-07T01:06:07.113Z",
+    "logs": [
+      {
+        "timestamp": "2026-02-07T00:51:01.530Z",
+        "message": "Task created: ARC-SCI Research Repos - RLAN & Structural Causal Invariance"
+      }
+    ]
+  },
+  {
+    "id": "c01dbaca-80e3-467e-b422-21e79646afc5",
+    "title": "SCI - Structural Causal Invariance for Compositional Generalization",
+    "description": "Research implementation targeting Nature Machine Intelligence. SCI architecture achieves 4.4× OOD improvement on SCAN benchmark (87.3% vs 19.8% baseline) by separating structural patterns from content using TinyLlama-1.1B. Components: Structural Encoder with AbstractionLayer, Content Encoder (orthogonality loss), Causal Binding Mechanism (cross-attention), Structural Contrastive Learning. 7 ablation configs, EdgePredictor recently added.",
+    "status": "pending",
+    "progress": 0,
+    "subtasks": [
+      {
+        "id": "b0e407d5-53c5-43f6-84a6-713171ab8a1c",
+        "title": "Environment setup (Python 3.9+, PyTorch 2.1, CUDA, TinyLlama-1.1B)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:09:37.358Z",
+            "message": "Subtask created: Environment setup (Python 3.9+, PyTorch 2.1, CUDA, TinyLlama-1.1B)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:09:37.358Z",
+        "updatedAt": "2026-02-07T01:09:37.358Z"
+      },
+      {
+        "id": "2d6d2dd9-61cd-4969-a5e8-8262abaf5d0b",
+        "title": "Run full test suite (components, data leakage, integration)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:09:37.361Z",
+            "message": "Subtask created: Run full test suite (components, data leakage, integration)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:09:37.361Z",
+        "updatedAt": "2026-02-07T01:09:37.361Z"
+      },
+      {
+        "id": "3eb5e77c-6177-4095-90b8-9f04b7fac947",
+        "title": "Train baseline model (configs/baseline.yaml)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:09:41.050Z",
+            "message": "Subtask created: Train baseline model (configs/baseline.yaml)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:09:41.050Z",
+        "updatedAt": "2026-02-07T01:09:41.050Z"
+      },
+      {
+        "id": "e1684ff8-507c-44fa-bc5b-3b8856a2c459",
+        "title": "Train SCI full model (configs/sci_full.yaml)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:09:41.056Z",
+            "message": "Subtask created: Train SCI full model (configs/sci_full.yaml)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:09:41.056Z",
+        "updatedAt": "2026-02-07T01:09:41.056Z"
+      },
+      {
+        "id": "1201db0c-ec2e-4cdf-8506-fb00935e5a43",
+        "title": "Run 7 ablation studies (no_abstraction, no_scl, etc.)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:09:44.552Z",
+            "message": "Subtask created: Run 7 ablation studies (no_abstraction, no_scl, etc.)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:09:44.552Z",
+        "updatedAt": "2026-02-07T01:09:44.552Z"
+      },
+      {
+        "id": "50066175-a064-4616-931a-13bcebf1eeec",
+        "title": "Evaluate on SCAN splits (simple, length, template)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:09:44.560Z",
+            "message": "Subtask created: Evaluate on SCAN splits (simple, length, template)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:09:44.560Z",
+        "updatedAt": "2026-02-07T01:09:44.560Z"
+      },
+      {
+        "id": "879ee51a-0a5a-40e4-b305-3180d257e8f6",
+        "title": "Resolve EdgePredictor & Causal Binding bugs",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:09:48.159Z",
+            "message": "Subtask created: Resolve EdgePredictor & Causal Binding bugs"
+          }
+        ],
+        "createdAt": "2026-02-07T01:09:48.159Z",
+        "updatedAt": "2026-02-07T01:09:48.159Z"
+      },
+      {
+        "id": "cde3db7e-1dc8-4231-b453-2f2330cab408",
+        "title": "Generate publication figures & Nature MI paper prep",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:09:48.166Z",
+            "message": "Subtask created: Generate publication figures & Nature MI paper prep"
+          }
+        ],
+        "createdAt": "2026-02-07T01:09:48.166Z",
+        "updatedAt": "2026-02-07T01:09:48.166Z"
+      }
+    ],
+    "githubRepo": "https://github.com/peymanrah/SCI",
+    "branch": "",
+    "prUrl": "",
+    "associatedFiles": [],
+    "createdAt": "2026-02-07T01:09:32.546Z",
+    "updatedAt": "2026-02-07T01:09:48.166Z",
+    "logs": [
+      {
+        "timestamp": "2026-02-07T01:09:32.546Z",
+        "message": "Task created: SCI - Structural Causal Invariance for Compositional Generalization"
+      }
+    ]
+  },
+  {
+    "id": "9236aa90-f931-4240-b9e7-86b948c58908",
+    "title": "CoPilot Evaluation Framework - UX Benchmarking Pipeline",
+    "description": "Automated UX evaluation framework for benchmarking Microsoft Copilot against ChatGPT and Gemini. Uses Playwright stealth browser agents, synthetic prompt generation from user feedback/intent taxonomy, LLM-as-judge evaluation (GPT-4) across 7 UX dimensions. Includes prompt harvesting from HuggingFace datasets (LMSYS, WildChat, ShareGPT, OpenAssistant, Dolly, Alpaca). Located at C:\\Users\\perahmat\\OneDrive - Microsoft\\Evaluation Framework.",
+    "status": "pending",
+    "progress": 0,
+    "subtasks": [
+      {
+        "id": "90c4a70b-bbc5-488b-bd72-eaeca724863c",
+        "title": "Environment setup (Python 3.9+, Playwright, OpenAI API key)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:12:16.923Z",
+            "message": "Subtask created: Environment setup (Python 3.9+, Playwright, OpenAI API key)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:12:16.923Z",
+        "updatedAt": "2026-02-07T01:12:16.923Z"
+      },
+      {
+        "id": "036a7aab-e6fb-4fbb-8099-da54d50f6a5e",
+        "title": "Prompt harvesting pipeline (HuggingFace datasets → CSV)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:12:16.928Z",
+            "message": "Subtask created: Prompt harvesting pipeline (HuggingFace datasets → CSV)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:12:16.928Z",
+        "updatedAt": "2026-02-07T01:12:16.928Z"
+      },
+      {
+        "id": "9e4ca9c0-ff67-4ffb-be47-86e4cd0f4d82",
+        "title": "Synthetic prompt generation from intent taxonomy",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:12:21.423Z",
+            "message": "Subtask created: Synthetic prompt generation from intent taxonomy"
+          }
+        ],
+        "createdAt": "2026-02-07T01:12:21.423Z",
+        "updatedAt": "2026-02-07T01:12:21.423Z"
+      },
+      {
+        "id": "3e2fbb0e-22cb-4ffb-bd33-a64e7c11a913",
+        "title": "Stealth browser agent (Copilot, ChatGPT, Gemini)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:12:21.429Z",
+            "message": "Subtask created: Stealth browser agent (Copilot, ChatGPT, Gemini)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:12:21.429Z",
+        "updatedAt": "2026-02-07T01:12:21.429Z"
+      },
+      {
+        "id": "15d76de1-e548-43f8-8741-224459f542d6",
+        "title": "LLM-as-judge evaluation (GPT-4 text + vision scoring)",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:12:25.396Z",
+            "message": "Subtask created: LLM-as-judge evaluation (GPT-4 text + vision scoring)"
+          }
+        ],
+        "createdAt": "2026-02-07T01:12:25.396Z",
+        "updatedAt": "2026-02-07T01:12:25.396Z"
+      },
+      {
+        "id": "ed2c6a78-9c88-4611-9184-b0a979ed2bad",
+        "title": "Score aggregation & competitive leaderboard generation",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:12:25.402Z",
+            "message": "Subtask created: Score aggregation & competitive leaderboard generation"
+          }
+        ],
+        "createdAt": "2026-02-07T01:12:25.402Z",
+        "updatedAt": "2026-02-07T01:12:25.402Z"
+      },
+      {
+        "id": "600075ed-0f57-4fff-9954-16f767263949",
+        "title": "Winner analysis & visualization reports",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:12:29.455Z",
+            "message": "Subtask created: Winner analysis & visualization reports"
+          }
+        ],
+        "createdAt": "2026-02-07T01:12:29.455Z",
+        "updatedAt": "2026-02-07T01:12:29.455Z"
+      },
+      {
+        "id": "9d61fa5d-65f2-418b-bcbb-94ff45705a76",
+        "title": "End-to-end pipeline run & validation",
+        "status": "pending",
+        "progress": 0,
+        "logs": [
+          {
+            "timestamp": "2026-02-07T01:12:29.460Z",
+            "message": "Subtask created: End-to-end pipeline run & validation"
+          }
+        ],
+        "createdAt": "2026-02-07T01:12:29.460Z",
+        "updatedAt": "2026-02-07T01:12:29.460Z"
+      }
+    ],
+    "githubRepo": "https://github.com/peymanrah/CoPilotEvalFramework",
+    "branch": "",
+    "prUrl": "",
+    "associatedFiles": [],
+    "createdAt": "2026-02-07T01:12:12.907Z",
+    "updatedAt": "2026-02-07T01:12:29.460Z",
+    "logs": [
+      {
+        "timestamp": "2026-02-07T01:12:12.907Z",
+        "message": "Task created: CoPilot Evaluation Framework - UX Benchmarking Pipeline"
       }
     ]
   }

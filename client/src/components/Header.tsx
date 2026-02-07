@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import {
   Wifi,
   WifiOff,
@@ -11,6 +12,7 @@ import {
   Moon,
   LayoutGrid,
   History,
+  User,
 } from 'lucide-react';
 import { TaskStatus } from '../types';
 import { ViewMode } from '../App';
@@ -52,6 +54,24 @@ export default function Header({
   onViewChange,
 }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
+  const [userInfo, setUserInfo] = useState<{ displayName: string; email: string } | null>(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch('/api/user')
+      .then(r => r.json())
+      .then(data => setUserInfo(data))
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setShowUserMenu(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 glass border-b border-tower-border">
@@ -97,6 +117,40 @@ export default function Header({
             >
               {connected ? <Wifi size={12} /> : <WifiOff size={12} />}
               {connected ? 'Live' : 'Offline'}
+            </div>
+
+            {/* User avatar */}
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="w-8 h-8 rounded-full bg-tower-accent/20 border border-tower-border
+                           flex items-center justify-center hover:border-tower-accent/50 transition-all"
+                title={userInfo?.displayName || 'User'}
+              >
+                {userInfo ? (
+                  <span className="text-xs font-bold text-tower-accent uppercase">
+                    {userInfo.displayName.charAt(0)}
+                  </span>
+                ) : (
+                  <User size={14} className="text-tower-muted" />
+                )}
+              </button>
+              {showUserMenu && userInfo && (
+                <div className="absolute right-0 top-full mt-2 w-64 glass rounded-xl border border-tower-border
+                                shadow-2xl p-4 z-50">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-full bg-tower-accent/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-sm font-bold text-tower-accent uppercase">
+                        {userInfo.displayName.charAt(0)}
+                      </span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-tower-text truncate">{userInfo.displayName}</p>
+                      <p className="text-xs text-tower-muted truncate">{userInfo.email}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
