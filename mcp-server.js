@@ -319,6 +319,124 @@ server.tool(
   }
 );
 
+// ─── Tool: get_lessons_learned ────────────────────────────────────────────────
+
+server.tool(
+  'get_lessons_learned',
+  'Aggregate all lessons learned across every task spec. Returns a unified view of what worked and what did not across all projects. Use this for AI personalization — understanding user preferences, patterns, and pitfalls before starting new work.',
+  {},
+  async () => {
+    ensureDataDir();
+    const tasks = readTasks();
+    const allLessons = [];
+
+    for (const task of tasks) {
+      const specPath = path.join(SPECS_DIR, `${task.id}.md`);
+      if (!fs.existsSync(specPath)) continue;
+      const spec = fs.readFileSync(specPath, 'utf-8');
+
+      // Extract lessons learned sections
+      const workedMatch = spec.match(/## ✅ What Worked\n([\s\S]*?)(?=\n## |$)/);
+      const didntMatch = spec.match(/## ❌ What Didn't Work\n([\s\S]*?)(?=\n## |$)/);
+      const patternsMatch = spec.match(/## 🧠 AI Agent Notes\n([\s\S]*?)(?=\n## |$)/);
+
+      if (workedMatch || didntMatch || patternsMatch) {
+        allLessons.push({
+          taskId: task.id,
+          taskTitle: task.title,
+          status: task.status,
+          whatWorked: workedMatch ? workedMatch[1].trim() : '',
+          whatDidntWork: didntMatch ? didntMatch[1].trim() : '',
+          aiAgentNotes: patternsMatch ? patternsMatch[1].trim() : '',
+        });
+      }
+    }
+
+    if (allLessons.length === 0) {
+      return { content: [{ type: 'text', text: 'No lessons learned recorded yet across any tasks. Add "## ✅ What Worked", "## ❌ What Didn\'t Work", and "## 🧠 AI Agent Notes" sections to task specs.' }] };
+    }
+
+    let report = '# 🧠 Lessons Learned Across All Tasks\n\n';
+    report += `_${allLessons.length} task(s) with lessons recorded_\n\n`;
+
+    for (const l of allLessons) {
+      report += `---\n### ${l.taskTitle} (${l.status})\n\n`;
+      if (l.whatWorked) report += `**✅ What Worked:**\n${l.whatWorked}\n\n`;
+      if (l.whatDidntWork) report += `**❌ What Didn't Work:**\n${l.whatDidntWork}\n\n`;
+      if (l.aiAgentNotes) report += `**🧠 AI Agent Notes:**\n${l.aiAgentNotes}\n\n`;
+    }
+
+    return { content: [{ type: 'text', text: report }] };
+  }
+);
+
+// ─── Tool: export_specs ──────────────────────────────────────────────────────
+
+server.tool(
+  'export_specs',
+  'Export all task data and specs as a single JSON bundle. Use for backup, migration, or sharing across machines. Includes tasks, subtasks, logs, and full spec Markdown.',
+  {},
+  async () => {
+    ensureDataDir();
+    const tasks = readTasks();
+    const bundle = {
+      exportedAt: now(),
+      version: '1.0.0',
+      tasks: tasks.map(t => {
+        const specPath = path.join(SPECS_DIR, `${t.id}.md`);
+        const spec = fs.existsSync(specPath) ? fs.readFileSync(specPath, 'utf-8') : '';
+        return { ...t, spec };
+      }),
+    };
+    return { content: [{ type: 'text', text: JSON.stringify(bundle, null, 2) }] };
+  }
+);
+
+// ─── Tool: import_specs ──────────────────────────────────────────────────────
+
+server.tool(
+  'import_specs',
+  'Import tasks and specs from a JSON bundle (as produced by export_specs). Merges with existing data — tasks with matching IDs are updated, new IDs are added.',
+  {
+    bundle: z.string().describe('JSON string of the export bundle containing tasks and specs'),
+  },
+  async ({ bundle }) => {
+    ensureDataDir();
+    let parsed;
+    try { parsed = JSON.parse(bundle); }
+    catch { return { content: [{ type: 'text', text: 'Error: Invalid JSON bundle' }] }; }
+
+    if (!parsed.tasks || !Array.isArray(parsed.tasks)) {
+      return { content: [{ type: 'text', text: 'Error: Bundle must contain a "tasks" array' }] };
+    }
+
+    const existing = readTasks();
+    let added = 0, updated = 0, specsWritten = 0;
+
+    for (const importedTask of parsed.tasks) {
+      const { spec, ...taskData } = importedTask;
+      const existIdx = existing.findIndex(t => t.id === taskData.id);
+
+      if (existIdx >= 0) {
+        existing[existIdx] = { ...existing[existIdx], ...taskData, updatedAt: now() };
+        updated++;
+      } else {
+        existing.push(taskData);
+        added++;
+      }
+
+      if (spec) {
+        const specPath = path.join(SPECS_DIR, `${taskData.id}.md`);
+        fs.writeFileSync(specPath, spec, 'utf-8');
+        specsWritten++;
+      }
+    }
+
+    writeTasks(existing);
+    return { content: [{ type: 'text', text: `✅ Import complete! Added: ${added}, Updated: ${updated}, Specs written: ${specsWritten}` }] };
+  }
+);
+
 // ─── Start Server ────────────────────────────────────────────────────────────
 
 async function main() {

@@ -14,7 +14,10 @@ import {
   getSpec,
   writeSpec,
   deleteSpec,
+  getSpecsDir,
 } from './taskStore';
+
+import * as fs from 'fs';
 
 const PORT = parseInt(process.env.PORT || '4567', 10);
 const app = express();
@@ -68,6 +71,55 @@ app.put('/api/tasks/:id/spec', (req, res) => {
   const content = typeof req.body === 'string' ? req.body : req.body.spec || '';
   writeSpec(req.params.id, content);
   res.json({ taskId: req.params.id, success: true });
+});
+
+// ─── Export / Import API ─────────────────────────────────────────────────────
+
+app.get('/api/export', (_req, res) => {
+  const tasks = getAllTasks();
+  const specsDir = getSpecsDir();
+  const bundle = {
+    exportedAt: new Date().toISOString(),
+    version: '1.0.0',
+    tasks: tasks.map(t => {
+      const specPath = path.join(specsDir, `${t.id}.md`);
+      const spec = fs.existsSync(specPath) ? fs.readFileSync(specPath, 'utf-8') : '';
+      return { ...t, spec };
+    }),
+  };
+  res.setHeader('Content-Disposition', 'attachment; filename="task-manager-export.json"');
+  res.json(bundle);
+});
+
+// ─── Lessons Learned API ─────────────────────────────────────────────────────
+
+app.get('/api/lessons', (_req, res) => {
+  const tasks = getAllTasks();
+  const specsDir = getSpecsDir();
+  const lessons: Array<{ taskId: string; taskTitle: string; status: string; whatWorked: string; whatDidntWork: string; aiAgentNotes: string }> = [];
+
+  for (const task of tasks) {
+    const specPath = path.join(specsDir, `${task.id}.md`);
+    if (!fs.existsSync(specPath)) continue;
+    const spec = fs.readFileSync(specPath, 'utf-8');
+
+    const workedMatch = spec.match(/## ✅ What Worked\n([\s\S]*?)(?=\n## |$)/);
+    const didntMatch = spec.match(/## ❌ What Didn't Work\n([\s\S]*?)(?=\n## |$)/);
+    const patternsMatch = spec.match(/## 🧠 AI Agent Notes\n([\s\S]*?)(?=\n## |$)/);
+
+    if (workedMatch || didntMatch || patternsMatch) {
+      lessons.push({
+        taskId: task.id,
+        taskTitle: task.title,
+        status: task.status,
+        whatWorked: workedMatch ? workedMatch[1].trim() : '',
+        whatDidntWork: didntMatch ? didntMatch[1].trim() : '',
+        aiAgentNotes: patternsMatch ? patternsMatch[1].trim() : '',
+      });
+    }
+  }
+
+  res.json(lessons);
 });
 
 // Serve static React build
