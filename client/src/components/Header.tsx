@@ -123,16 +123,23 @@ export default function Header({
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="w-8 h-8 rounded-full bg-tower-accent/20 border border-tower-border
-                           flex items-center justify-center hover:border-tower-accent/50 transition-all"
+                className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-tower-card border border-tower-border
+                           hover:border-tower-accent/50 transition-all"
                 title={userInfo?.displayName || 'User'}
               >
-                {userInfo ? (
-                  <span className="text-xs font-bold text-tower-accent uppercase">
-                    {userInfo.displayName.charAt(0)}
+                <div className="w-7 h-7 rounded-full bg-tower-accent/20 flex items-center justify-center flex-shrink-0">
+                  {userInfo ? (
+                    <span className="text-xs font-bold text-tower-accent uppercase">
+                      {userInfo.displayName.split(' ').map(n => n[0]).join('')}
+                    </span>
+                  ) : (
+                    <User size={14} className="text-tower-muted" />
+                  )}
+                </div>
+                {userInfo && (
+                  <span className="hidden sm:block text-sm font-medium text-tower-text">
+                    {userInfo.displayName}
                   </span>
-                ) : (
-                  <User size={14} className="text-tower-muted" />
                 )}
               </button>
               {showUserMenu && userInfo && (
@@ -141,7 +148,7 @@ export default function Header({
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-10 h-10 rounded-full bg-tower-accent/20 flex items-center justify-center flex-shrink-0">
                       <span className="text-sm font-bold text-tower-accent uppercase">
-                        {userInfo.displayName.charAt(0)}
+                        {userInfo.displayName.split(' ').map(n => n[0]).join('')}
                       </span>
                     </div>
                     <div className="min-w-0">
